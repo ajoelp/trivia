@@ -1,5 +1,7 @@
+import "dotenv/config";
 import app from "./app";
+import { HOST, PORT } from "./config";
 
-app.listen(8088, () => {
-  console.log("Listening on port 8088");
+app.listen(PORT, HOST, () => {
+  console.log(`Listening on port http://${HOST}:${PORT}`);
 });
