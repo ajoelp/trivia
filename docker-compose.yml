@@ -1,0 +1,46 @@
+version: "3.4"
+services:
+  db:
+    image: postgres:13
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: database
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+    networks:
+      - trivia
+
+  db_test:
+    image: postgres:13
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: database
+    volumes:
+      - "postgres_test_data:/var/lib/postgresql/data"
+    networks:
+      - trivia
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/data
+    networks:
+      - trivia
+
+networks:
+  trivia:
+volumes:
+  redisdata:
+    driver: local
+  postgres_data:
+    driver: local
+  postgres_test_data:
+    driver: local
