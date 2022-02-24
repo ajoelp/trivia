@@ -10,3 +10,7 @@ export async function findOrCreateUser(email: string): Promise<User> {
   }
   return user;
 }
+
+export async function findUserById(id: string): Promise<User> {
+  return await userQuery.findUnique({ where: { id } });
+}

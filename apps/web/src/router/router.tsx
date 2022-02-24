@@ -2,6 +2,7 @@ import { Navigate, RouteObject, useRoutes, generatePath, useLocation } from 'rea
 import { LazyExoticComponent, Suspense } from 'react';
 import { RouteInstance } from './shared';
 import { RouteNames, ROUTES } from './routes';
+import { useAuth } from "../providers/AuthProvider";
 
 type RouteProps = {
     Component: LazyExoticComponent<any>;
@@ -9,10 +10,11 @@ type RouteProps = {
 };
 
 function Route({ Component, auth = false }: RouteProps) {
+    const { user } = useAuth()
     const location = useLocation();
 
-    if (auth && true) {
-        return <Navigate to={getPathByName(RouteNames.LOGIN, {}, { redirect: location.pathname })} />;
+    if (auth && !user) {
+        return <Navigate to={routePath(RouteNames.LOGIN, {}, { redirect: location.pathname })} />;
     }
     return (
         <Suspense fallback={null}>
@@ -43,7 +45,7 @@ const flattenRoutes = (routes: RouteInstance[], prefix?: string) => {
 const FlatRoutes: FlatRouteList = flattenRoutes(ROUTES);
 type Params = Record<string, any>;
 
-function getPathByName(name: RouteNames, params: Params = {}, query: Params = {}) {
+export function routePath(name: RouteNames, params: Params = {}, query: Params = {}) {
     const route = FlatRoutes.find((a) => a.name === name);
     if (!route || !route.path) return '/';
     let queryString = '';
