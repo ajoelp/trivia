@@ -5,9 +5,17 @@ export enum RouteNames {
     GAME_SETUP = 'game-setup',
     DASHBOARD = 'dashboard',
     LOGIN = 'login',
+    NOT_FOUND = 'not-found',
+    ROOT = 'root'
 }
 
 export const ROUTES: RouteInstance[] = [
+    {
+        path: '/',
+        name: RouteNames.ROOT,
+        title: 'Trivia',
+        component: lazy(() => import('../screens/root-page'))
+    },
     {
         path: '/game-setup',
         name: RouteNames.GAME_SETUP,
@@ -29,4 +37,5 @@ export const ROUTES: RouteInstance[] = [
         component: lazy(() => import('../screens/login')),
         title: 'Login',
     },
+    { path: "*", name: RouteNames.NOT_FOUND, title: 'Not Found', component: lazy(() => import('../screens/not-found')) },
 ];
