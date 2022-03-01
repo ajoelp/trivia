@@ -13,4 +13,13 @@ datasource db {
 model User {
   id    String @id @default(uuid())
   email String @unique
+  games Game[]
+}
+
+model Game {
+  id     String @id @default(uuid())
+  code   String @unique
+  name   String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
