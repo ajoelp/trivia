@@ -1,13 +1,15 @@
 import { Prisma, Game } from "@prisma/client";
 import { BaseFactory } from "./BaseFactory";
 import { randText, randEmail } from "@ngneat/falso";
-import { prisma } from "../../prismaClient";
+import { prisma } from "../../../prisma";
 
 export const GameFactory: BaseFactory<Prisma.GameCreateInput, Game> = {
   build: (attrs = {}) => {
     return {
       name: randEmail(),
       code: randText(),
+      active: true,
+      state: {},
       ...attrs,
     } as Prisma.GameCreateInput;
   },

@@ -3,7 +3,7 @@ import { AuthRouter } from "./auth/AuthRouter";
 import express from "express";
 import cors from "cors";
 import globalErrorMiddleware from "./middleware/GlobalErrorMiddleware";
-import {GamesRouter} from "./games/GamesRouter";
+import { GamesRouter } from "./games/GamesRouter";
 
 const app = express();
 

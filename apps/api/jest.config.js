@@ -5,5 +5,6 @@ const path = require("path");
 module.exports = {
   maxWorkers: 1,
   preset: "ts-jest",
-  testEnvironment: path.join(__dirname, "./prisma-test-environment.ts"),
+  verbose: true,
+  setupFilesAfterEnv: ["./src/jest.setup.ts"],
 };

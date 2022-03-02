@@ -1,7 +1,7 @@
 import { Prisma, User } from "@prisma/client";
 import { BaseFactory } from "./BaseFactory";
 import { randEmail } from "@ngneat/falso";
-import { prisma } from "../../prismaClient";
+import { prisma } from "../../../prisma";
 
 export const UserFactory: BaseFactory<Prisma.UserCreateArgs["data"], User> = {
   build: (attrs = {}) => {
