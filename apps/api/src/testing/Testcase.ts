@@ -1,25 +1,24 @@
 import fetchtest from "fetchtest";
 import { User } from "@prisma/client";
 import app from "../app";
+import { createToken } from "../services/json-service";
 
 type FetchTest = ReturnType<typeof fetchtest>;
 
-type HeaderPromiseClosure = () => Promise<Record<string, any>>;
-
 export class TestCase {
-  headerPromises: HeaderPromiseClosure[] = [];
+  headers: Record<string, any> = {};
 
   static make() {
     return new TestCase();
   }
 
   actingAs(user: User) {
-    // TODO: Implement auth stuff
+    this.headers.Authorization = `Bearer ${createToken(user)}`;
     return this;
   }
 
   async get(...[url, body, options = {}]: Parameters<FetchTest["get"]>) {
-    const headers = await this.buildHeaders();
+    const headers = this.headers;
 
     options.headers = { ...(options?.headers ?? {}), ...headers };
 
@@ -27,7 +26,7 @@ export class TestCase {
   }
 
   async post(...[url, body, options = {}]: Parameters<FetchTest["post"]>) {
-    const headers = await this.buildHeaders();
+    const headers = this.headers;
 
     options.headers = { ...(options?.headers ?? {}), ...headers };
 
@@ -35,7 +34,7 @@ export class TestCase {
   }
 
   async put(...[url, body, options = {}]: Parameters<FetchTest["put"]>) {
-    const headers = await this.buildHeaders();
+    const headers = this.headers;
 
     options.headers = { ...(options?.headers ?? {}), ...headers };
 
@@ -43,7 +42,7 @@ export class TestCase {
   }
 
   async patch(...[url, body, options = {}]: Parameters<FetchTest["patch"]>) {
-    const headers = await this.buildHeaders();
+    const headers = this.headers;
 
     options.headers = { ...(options?.headers ?? {}), ...headers };
 
@@ -51,18 +50,10 @@ export class TestCase {
   }
 
   async delete(...[url, body, options = {}]: Parameters<FetchTest["delete"]>) {
-    const headers = await this.buildHeaders();
+    const headers = this.headers;
 
     options.headers = { ...(options?.headers ?? {}), ...headers };
 
     return fetchtest(app).delete(url, body, options);
-  }
-
-  private async buildHeaders(): Promise<Record<string, any>> {
-    let headers = {};
-    for (const headerClosure of this.headerPromises) {
-      headers = Object.assign(headers, await headerClosure());
-    }
-    return headers;
   }
 }

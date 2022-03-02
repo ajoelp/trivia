@@ -8,6 +8,7 @@ import { GamesRouter } from "./games/GamesRouter";
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 app.get("/", (req, res) => {
   return res.json({ status: "ok" });

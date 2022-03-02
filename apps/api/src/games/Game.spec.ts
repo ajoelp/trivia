@@ -1,6 +1,8 @@
 import { TestCase } from "../testing/Testcase";
 import { GameFactory } from "../testing/factories/GameFactory";
 import { UserFactory } from "../testing/factories/UserFactory";
+import { Game } from "@prisma/client";
+import { prisma } from "../../prisma";
 
 const testcase = TestCase.make();
 
@@ -20,5 +22,27 @@ describe("Game", () => {
 
     expect(response.status).toEqual(200);
     expect(response.json).toEqual(expect.objectContaining({ id: game.id }));
+  });
+
+  it("can create a game", async () => {
+    const user = await UserFactory.create();
+    const expectedName = "Test Game";
+
+    const data = {
+      name: expectedName,
+    };
+
+    const response = await testcase.actingAs(user).post("/games", data);
+
+    expect(response.status).toEqual(201);
+    expect(response.json).toEqual(expect.objectContaining({ name: expectedName }));
+
+    expect(
+      await prisma.game.findFirst({
+        where: {
+          name: expectedName,
+        },
+      }),
+    ).toBeTruthy();
   });
 });
