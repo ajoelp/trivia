@@ -45,4 +45,43 @@ describe("Game", () => {
       }),
     ).toBeTruthy();
   });
+
+  it("can update a game", async () => {
+    const user = await UserFactory.create();
+    const game = await GameFactory.create({ author: { connect: { id: user.id } } });
+
+    const expectedName = "Test Game";
+
+    const data = {
+      name: expectedName,
+    };
+
+    const response = await testcase.actingAs(user).patch(`/games/${game.id}`, data);
+
+    console.log(response.json);
+    expect(response.status).toEqual(200);
+    expect(response.json).toEqual(expect.objectContaining({ name: expectedName }));
+
+    expect(
+      await prisma.game.findFirst({
+        where: {
+          id: game.id,
+          name: expectedName,
+        },
+      }),
+    ).toBeTruthy();
+  });
+
+  it("generates a unique code for each game", async () => {
+    const user = await UserFactory.create();
+    const data = {
+      name: "Test Game",
+    };
+    await testcase.actingAs(user).post("/games", data);
+
+    const response = await testcase.actingAs(user).post("/games", {
+      name: "Test Game 2",
+    });
+    expect(response.status).toEqual(201);
+  });
 });

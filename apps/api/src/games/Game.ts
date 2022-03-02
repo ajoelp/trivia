@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "../../prisma";
 import { ApiRequest } from "../types/Api";
+import { generateGameCode } from "../services/generateGameCode";
 
 export async function GetGames(req: Request, res: Response) {
   return res.json(await prisma.game.findMany());
@@ -15,10 +16,21 @@ export async function CreateGame(req: ApiRequest, res: Response) {
     await prisma.game.create({
       data: {
         ...req.body,
-        code: "test123",
+        code: await generateGameCode(),
         author: { connect: { id: req.user.id } },
         state: {},
       },
+    }),
+  );
+}
+
+export async function UpdateGame(req: ApiRequest, res: Response) {
+  return res.json(
+    await prisma.game.update({
+      where: {
+        id: req.params.id,
+      },
+      data: req.body,
     }),
   );
 }
