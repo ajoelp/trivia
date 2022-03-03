@@ -1,12 +1,11 @@
 import { TestCase } from "../testing/Testcase";
 import { GameFactory } from "../testing/factories/GameFactory";
 import { UserFactory } from "../testing/factories/UserFactory";
-import { Game } from "@prisma/client";
 import { prisma } from "../../prisma";
 
 const testcase = TestCase.make();
 
-describe("Game", () => {
+describe("GameController", () => {
   it("can get games", async () => {
     const user = await UserFactory.create();
     await GameFactory.createMany(2, { author: { connect: { id: user.id } } });
@@ -58,7 +57,6 @@ describe("Game", () => {
 
     const response = await testcase.actingAs(user).patch(`/games/${game.id}`, data);
 
-    console.log(response.json);
     expect(response.status).toEqual(200);
     expect(response.json).toEqual(expect.objectContaining({ name: expectedName }));
 

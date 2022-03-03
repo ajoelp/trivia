@@ -39,11 +39,12 @@ const ALLOWED_CHARACTERS = [
 ];
 
 export async function generateGameCode() {
-  const code = shuffle(ALLOWED_CHARACTERS).splice(0, DIGITS);
-  const codeExists = !!(await prisma.game.findUnique({ where: { code: code } }));
+  const code = shuffle(ALLOWED_CHARACTERS).splice(0, DIGITS).join("");
+
+  const codeExists = Boolean(await prisma.game.findUnique({ where: { code: code } }));
 
   if (codeExists) {
-    return generateGameCode();
+    return await generateGameCode();
   }
 
   return code;

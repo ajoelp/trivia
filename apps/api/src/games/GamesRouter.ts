@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { GetGame, GetGames, CreateGame, UpdateGame } from "./Game";
+import { GetGame, GetGames, CreateGame, UpdateGame } from "./GameController";
 import { AuthMiddleware } from "../middleware/AuthMiddleware";
 
 export const GamesRouter = Router();
