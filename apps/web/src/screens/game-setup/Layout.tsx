@@ -5,5 +5,5 @@ export default function Layout() {
     <div>
       <Outlet />
     </div>
-  )
+  );
 }

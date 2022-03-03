@@ -5,7 +5,9 @@
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "jest",
+    "lint": "eslint 'src/**/*.{js,ts,tsx,jsx}'"
   },
   "dependencies": {
     "axios": "^0.26.0",
@@ -16,12 +18,18 @@
     "react-router-dom": "^6.2.1"
   },
   "devDependencies": {
+    "@trivia/prettier": "1.0.0",
     "@types/js-cookie": "^3.0.1",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@vitejs/plugin-react": "^1.0.7",
     "autoprefixer": "^10.4.2",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react-app": "^7.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "postcss": "^8.4.6",
+    "prettier": "^2.5.1",
     "tailwindcss": "^3.0.23",
     "typescript": "^4.5.4",
     "vite": "^2.8.0"

@@ -3,32 +3,32 @@ import { createContext, ReactNode, useContext } from "react";
 import { useCurrentUser } from "../api/users";
 
 interface AuthProviderState {
-  user?: User
-  bootstrap: () => Promise<void>
-  logout: () => Promise<void>
+  user?: User;
+  bootstrap: () => Promise<void>;
+  logout: () => Promise<void>;
 }
 
-const context = createContext<AuthProviderState>({} as AuthProviderState)
+const context = createContext<AuthProviderState>({} as AuthProviderState);
 
-interface AuthProviderProps { children: ReactNode}
+interface AuthProviderProps {
+  children: ReactNode;
+}
 export function AuthProvider({ children }: AuthProviderProps) {
-  const {data: user, isFetched: hasLoaded, refetch, remove } = useCurrentUser()
+  const { data: user, isFetched: hasLoaded, refetch, remove } = useCurrentUser();
 
   const bootstrap = async () => {
-    await refetch()
-  }
+    await refetch();
+  };
 
   const logout = async () => {
-    await remove()
-  }
+    await remove();
+  };
 
-  const state = { bootstrap, logout, user }
+  const state = { bootstrap, logout, user };
 
-  if(!hasLoaded) return null;
+  if (!hasLoaded) return null;
 
-  return <context.Provider value={state}>
-    {children}
-  </context.Provider>
+  return <context.Provider value={state}>{children}</context.Provider>;
 }
 
 export function useAuth() {

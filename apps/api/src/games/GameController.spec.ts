@@ -16,7 +16,9 @@ describe("GameController", () => {
 
   it("can get a specified game", async () => {
     const user = await UserFactory.create();
-    const game = await GameFactory.create({ author: { connect: { id: user.id } } });
+    const game = await GameFactory.create({
+      author: { connect: { id: user.id } },
+    });
     const response = await testcase.get(`/games/${game.id}`);
 
     expect(response.status).toEqual(200);
@@ -47,7 +49,9 @@ describe("GameController", () => {
 
   it("can update a game", async () => {
     const user = await UserFactory.create();
-    const game = await GameFactory.create({ author: { connect: { id: user.id } } });
+    const game = await GameFactory.create({
+      author: { connect: { id: user.id } },
+    });
 
     const expectedName = "Test Game";
 
