@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node-dev ./src/index.ts",
-    "test": "jest"
+    "test": "jest",
+    "lint" : "eslint 'src/**/*.{js,ts,tsx,jsx}'"
   },
   "dependencies": {
     "@prisma/client": "^3.10.0",
