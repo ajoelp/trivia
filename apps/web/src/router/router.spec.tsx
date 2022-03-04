@@ -4,8 +4,6 @@ import { Route } from "./router";
 import { User } from "../types/models";
 import { Navigate } from "react-router-dom";
 
-jest.mock("react-router-dom");
-
 describe("router", () => {
   describe("Route component", () => {
     const Component = () => <div data-testid="app" />;
