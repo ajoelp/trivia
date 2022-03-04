@@ -6,6 +6,7 @@ import globalErrorMiddleware from "./middleware/GlobalErrorMiddleware";
 import { GamesRouter } from "./games/GamesRouter";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { SocketGame } from "./types/SocketGame";
 
 const app = express();
 const httpServer = createServer(app);
@@ -32,11 +33,21 @@ const regex = /\/(.*)/;
 
 const namespace = io.of(regex);
 
-const games = [];
+const games: SocketGame = {};
 
 namespace.on("connection", (socket) => {
-  const name = socket.nsp.name.match(regex)[1];
-  games.push({ [name]: socket.client });
+  const workspace = socket.nsp;
+  const name = workspace.name.match(regex)[1];
+
+  console.log("[Connected] ", socket.id);
+  games[name] = [...(games[name] ?? []), socket];
+
+  socket.on("disconnect", () => {
+    // Remove the client from the list.
+    games[name] = games[name].filter((game) => game.id !== socket.id);
+    console.log("[Disconnected] ", socket.id);
+    console.log(games);
+  });
 
   console.log(games);
 });
