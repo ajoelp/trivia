@@ -29,11 +29,11 @@ jobs:
           node-version: 16.x
           cache: 'yarn'
       - run: yarn install
-        working-directory: ./apps/api
+        working-directory: ./apps/web
       - run: yarn test --coverage
-        working-directory: ./apps/api
+        working-directory: ./apps/web
       - uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: api
+          flags: web
 

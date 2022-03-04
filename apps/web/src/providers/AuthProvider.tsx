@@ -12,9 +12,11 @@ const context = createContext<AuthProviderState>({} as AuthProviderState);
 
 interface AuthProviderProps {
   children: ReactNode;
+  fetchOnMount?: boolean;
+  user?: User;
 }
-export function AuthProvider({ children }: AuthProviderProps) {
-  const { data: user, isFetched: hasLoaded, refetch, remove } = useCurrentUser();
+export function AuthProvider({ children, fetchOnMount = true, user: baseUser }: AuthProviderProps) {
+  const { data: user, isFetched: hasLoaded, refetch, remove } = useCurrentUser(fetchOnMount);
 
   const bootstrap = async () => {
     await refetch();
@@ -24,9 +26,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     await remove();
   };
 
-  const state = { bootstrap, logout, user };
+  const state = { bootstrap, logout, user: user ?? baseUser };
 
-  if (!hasLoaded) return null;
+  if (!hasLoaded && fetchOnMount) return null;
 
   return <context.Provider value={state}>{children}</context.Provider>;
 }

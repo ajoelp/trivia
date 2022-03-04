@@ -1,15 +1,15 @@
 import { Navigate, RouteObject, useRoutes, generatePath, useLocation } from "react-router-dom";
-import { LazyExoticComponent, Suspense } from "react";
+import { ComponentType, Suspense } from "react";
 import { RouteInstance } from "./shared";
 import { RouteNames, ROUTES } from "./routes";
 import { useAuth } from "../providers/AuthProvider";
 
 type RouteProps = {
-  Component: LazyExoticComponent<any>;
+  Component: ComponentType<any>;
   auth?: boolean;
 };
 
-function Route({ Component, auth = false }: RouteProps) {
+export function Route({ Component, auth = false }: RouteProps) {
   const { user } = useAuth();
   const location = useLocation();
 
