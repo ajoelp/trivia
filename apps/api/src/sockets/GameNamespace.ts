@@ -1,8 +1,9 @@
 import { Namespace, Server, Socket } from "socket.io";
+import { prisma } from "../../prisma";
 
 type GameClients = Record<string, Socket[]>;
 
-class GameNamespaceService {
+export class GameNamespaceService {
   REGEX = /\/(.*)/;
   namespace: Namespace;
 
@@ -23,19 +24,28 @@ class GameNamespaceService {
     return socket.nsp.name.match(this.REGEX)?.[1];
   }
 
-  onConnection(socket: Socket): void {
+  async onConnection(socket: Socket): Promise<void> {
     const code = this.getGameCode(socket);
-    if (!code) socket.disconnect();
+    if (!code || !(await this.hasExistingGame(code))) {
+      socket.disconnect();
+      return;
+    }
     this._games[code] = [...(this._games[code] ?? []), socket];
-    this.debugLog();
   }
 
   onDisconnect(socket: Socket): void {
     const code = this.getGameCode(socket);
-    const currentIndex = this._games[code]?.findIndex((client) => client.id === socket.id);
-    if (!currentIndex || currentIndex < 0) return;
+    const currentIndex = this._games[code]?.findIndex((client) => client.id === socket.id) ?? -1;
+    if (currentIndex < 0) return;
     this._games[code].splice(currentIndex, 1);
-    this.debugLog();
+  }
+
+  totalConnectedClients() {
+    return Object.values(this._games).reduce((carry, clients) => carry + clients.length, 0);
+  }
+
+  private async hasExistingGame(code: string): Promise<boolean> {
+    return Boolean(await prisma.game.findUnique({ where: { code } }));
   }
 
   private debugLog() {
