@@ -30,7 +30,7 @@ const flattenRoutes = (routes: RouteInstance[], prefix?: string) => {
     const pathWithPrefix = [prefix, path].filter(Boolean).join("/") as string;
 
     if (children && children.length > 0) {
-      carry.push(...flattenRoutes(children));
+      carry.push(...flattenRoutes(children, pathWithPrefix));
     }
 
     carry.push({

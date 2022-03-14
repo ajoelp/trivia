@@ -1,3 +1,5 @@
+import { GamesTable } from "../../components/GamesTable";
+
 export default function DashboardScreen() {
-  return <p>Dashboard</p>;
+  return <GamesTable />;
 }

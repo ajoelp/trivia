@@ -2,8 +2,7 @@ import { Response } from "express";
 import { GoogleAuth } from "../services/google-auth";
 import { createToken } from "../services/json-service";
 import { ApiRequest } from "../types/Api";
-
-const towDaysToSeconds = 48 * 60 * 60;
+import ms from "ms";
 
 export async function AuthCallback(req: ApiRequest, res: Response) {
   const { code } = req.query;
@@ -15,7 +14,7 @@ export async function AuthCallback(req: ApiRequest, res: Response) {
 
   return res
     .cookie("AUTH_TOKEN", createToken(user), {
-      maxAge: towDaysToSeconds,
+      maxAge: ms("2 days"),
     })
     .redirect(process.env.CLIENT_URL as string);
 }

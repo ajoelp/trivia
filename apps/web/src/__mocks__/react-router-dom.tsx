@@ -7,3 +7,8 @@ export const useLocation = jest.fn(() => ({
 }));
 
 export const generatePath = jest.fn(actualGeneratePath);
+
+// eslint-disable-next-line jsx-a11y/anchor-has-content
+export const Link = jest.fn(({ to, ...rest }) => <a href={to} data-testid="link-mock" {...rest} />);
+
+export const useNavigate = jest.fn(() => jest.fn());
