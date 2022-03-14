@@ -2,7 +2,8 @@ import { RouteInstance } from "./shared";
 import { lazy } from "react";
 
 export enum RouteNames {
-  GAME_SETUP = "game-setup",
+  WATCH = "watch",
+  GAME = "game",
   DASHBOARD = "dashboard",
   LOGIN = "login",
   NOT_FOUND = "not-found",
@@ -18,7 +19,6 @@ export const ROUTES: RouteInstance[] = [
   },
   {
     path: "/game-setup",
-    name: RouteNames.GAME_SETUP,
     component: lazy(() => import("../screens/game-setup/Layout")),
     title: "Game Setup",
     auth: true,
@@ -28,6 +28,32 @@ export const ROUTES: RouteInstance[] = [
         name: RouteNames.DASHBOARD,
         component: lazy(() => import("../screens/game-setup/dashboard")),
         title: "Dashboard",
+      },
+    ],
+  },
+  {
+    path: "/watch",
+    component: lazy(() => import("../screens/watch/Layout")),
+    title: "Watch",
+    children: [
+      {
+        path: "",
+        name: RouteNames.WATCH,
+        component: lazy(() => import("../screens/watch/Landing")),
+        title: "Watch",
+      },
+    ],
+  },
+  {
+    path: "/game",
+    component: lazy(() => import("../screens/game/Layout")),
+    title: "Game",
+    children: [
+      {
+        path: "",
+        name: RouteNames.GAME,
+        component: lazy(() => import("../screens/game/Landing")),
+        title: "Game",
       },
     ],
   },

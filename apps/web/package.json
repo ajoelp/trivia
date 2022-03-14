@@ -10,12 +10,18 @@
     "lint": "eslint 'src/**/*.{js,ts,tsx,jsx}'"
   },
   "dependencies": {
+    "@floating-ui/dom": "^0.3.1",
+    "@headlessui/react": "^1.5.0",
+    "@heroicons/react": "^1.0.6",
+    "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.0",
     "js-cookie": "^3.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-gravatar": "^2.6.3",
     "react-query": "^3.34.16",
-    "react-router-dom": "^6.2.1"
+    "react-router-dom": "^6.2.1",
+    "react-table": "^7.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
@@ -28,6 +34,8 @@
     "@types/js-cookie": "^3.0.1",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
+    "@types/react-gravatar": "^2.6.10",
+    "@types/react-table": "^7.7.9",
     "@vitejs/plugin-react": "^1.0.7",
     "autoprefixer": "^10.4.2",
     "babel-jest": "^27.5.1",

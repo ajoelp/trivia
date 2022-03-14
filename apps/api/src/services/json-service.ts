@@ -11,6 +11,9 @@ export function createToken(user: User): string {
       email: user.email,
     },
     JWT_SECRET,
+    {
+      expiresIn: "2 days",
+    },
   );
 }
 
