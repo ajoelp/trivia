@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactNode } from "react";
-import { MemoryRouter, MemoryRouterProps } from "react-router-dom";
 import { AuthProvider } from "../providers/AuthProvider";
 import { User } from "../types/models";
 
@@ -25,4 +24,8 @@ export function flushPromises() {
   return new Promise(function (resolve) {
     setTimeout(resolve);
   });
+}
+
+export function mockedFunction<T extends (...args: any[]) => any>(fn: T) {
+  return fn as jest.MockedFunction<T>;
 }

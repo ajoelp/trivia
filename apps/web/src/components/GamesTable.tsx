@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { Game } from "../types/models";
 import { Badge } from "./Badge";
 import { CopyToClipboard } from "./CopyToClipboard";
+import Loader from "./Loader";
 
 export function GamesTable() {
   const { data, isLoading } = useGames();
@@ -54,8 +55,14 @@ export function GamesTable() {
           </div>
         ))}
       </div>
-      {/* Apply the table body props */}
       <div {...getTableBodyProps()}>
+        {isLoading && (
+          <div className="px-6 py-4 flex items-center gap-2 text-white">
+            <Loader className="w-5 h-5" />
+            Loading
+          </div>
+        )}
+        {rows.length === 0 && <div className="px-6 py-4 flex items-center gap-2 text-white">No Results</div>}
         {rows.map((row) => {
           prepareRow(row);
           return (
