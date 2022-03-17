@@ -3,7 +3,7 @@ import { Config } from "../config";
 import Cookies from "js-cookie";
 
 export const apiClient = axios.create({
-  baseURL: Config.apiUrl,
+  baseURL: Config.apiUrl ?? "/",
 });
 
 apiClient.interceptors.request.use((config) => {
