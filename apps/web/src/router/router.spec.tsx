@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { AppWrapper } from "../testing/helpers";
+import { testingWrapper } from "../testing/helpers";
 import { Route } from "./router";
 import { User } from "../types/models";
 import { Navigate } from "react-router-dom";
@@ -9,11 +9,7 @@ describe("router", () => {
     const Component = () => <div data-testid="app" />;
 
     const renderComponent = (auth: boolean = false, user?: User) => {
-      render(
-        <AppWrapper user={user}>
-          <Route Component={Component} auth={auth} />
-        </AppWrapper>,
-      );
+      render(<Route Component={Component} auth={auth} />, { wrapper: testingWrapper(user) });
     };
 
     it("will render the component", async () => {

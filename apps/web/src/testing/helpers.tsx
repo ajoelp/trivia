@@ -10,6 +10,16 @@ interface AppWrapperProps {
   user?: User;
 }
 
+interface TestingWrapperProps {
+  children: ReactNode;
+}
+
+export function testingWrapper(user?: User) {
+  return ({ children }: TestingWrapperProps) => {
+    return <AppWrapper user={user}>{children}</AppWrapper>;
+  };
+}
+
 export const AppWrapper = ({ children, user }: AppWrapperProps) => {
   return (
     <QueryClientProvider client={testingClient}>

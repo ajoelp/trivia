@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { AppWrapper, flushPromises } from "../testing/helpers";
+import { flushPromises, testingWrapper } from "../testing/helpers";
 import { NavBar } from "./NavBar";
 import { User } from "../types/models";
 import userEvent from "@testing-library/user-event";
@@ -10,21 +10,13 @@ import Cookies from "js-cookie";
 
 describe("NavBar", () => {
   it("wil render the component", async () => {
-    render(
-      <AppWrapper>
-        <NavBar />
-      </AppWrapper>,
-    );
+    render(<NavBar />, { wrapper: testingWrapper() });
     expect(await screen.findByText("trivi")).toBeInTheDocument();
   });
 
   it("will show the current users email address", async () => {
     const user: User = { email: "test@email.com", id: "random-id" };
-    render(
-      <AppWrapper user={user}>
-        <NavBar />
-      </AppWrapper>,
-    );
+    render(<NavBar />, { wrapper: testingWrapper(user) });
     expect(await screen.findByAltText(user.email)).toBeInTheDocument();
   });
 
@@ -35,11 +27,7 @@ describe("NavBar", () => {
     const removeSpy = jest.spyOn(Cookies, "remove").mockImplementation();
 
     const user: User = { email: "test@email.com", id: "random-id" };
-    render(
-      <AppWrapper user={user}>
-        <NavBar />
-      </AppWrapper>,
-    );
+    render(<NavBar />, { wrapper: testingWrapper(user) });
 
     const button = await screen.findByAltText(user.email);
     expect(await screen.findByAltText(user.email)).toBeInTheDocument();

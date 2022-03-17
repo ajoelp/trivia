@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { GamesTable } from "./GamesTable";
-import { AppWrapper, flushPromises } from "../testing/helpers";
+import { flushPromises, testingWrapper } from "../testing/helpers";
 import { mswServer } from "../mocks/server";
 import { rest } from "msw";
 import { respondWithData } from "../mocks/helpers";
@@ -8,7 +8,7 @@ import { Game } from "../types/models";
 import { GameFactory } from "../testing/factories/GameFactory";
 
 const renderComponent = () => {
-  return render(<GamesTable />, { wrapper: AppWrapper });
+  return render(<GamesTable />, { wrapper: testingWrapper() });
 };
 
 describe("GamesTable", () => {
