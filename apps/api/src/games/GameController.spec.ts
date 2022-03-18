@@ -9,7 +9,9 @@ describe("GameController", () => {
   it("can get games", async () => {
     const user = await UserFactory.create();
     await GameFactory.createMany(2, { author: { connect: { id: user.id } } });
-    const response = await testcase.get("/games");
+
+    const response = await testcase.actingAs(user).get("/games");
+
     expect(response.status).toEqual(200);
     expect(response.json).toHaveLength(2);
   });
@@ -19,7 +21,7 @@ describe("GameController", () => {
     const game = await GameFactory.create({
       author: { connect: { id: user.id } },
     });
-    const response = await testcase.get(`/games/${game.id}`);
+    const response = await testcase.actingAs(user).get(`/games/${game.id}`);
 
     expect(response.status).toEqual(200);
     expect(response.json).toEqual(expect.objectContaining({ id: game.id }));

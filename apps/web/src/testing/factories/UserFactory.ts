@@ -1,10 +1,11 @@
 import { User } from "../../types/models";
 import { BaseFactory } from "./BaseFactory";
-import { randEmail } from "@ngneat/falso";
+import { randEmail, randUuid } from "@ngneat/falso";
 
 export const UserFactory: BaseFactory<User> = {
   build: (attrs = {}) => {
     return {
+      id: randUuid(),
       email: randEmail(),
       ...attrs,
     } as User;
