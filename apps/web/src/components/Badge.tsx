@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-const colors = {
+export const BadgeColors = {
   gray: "bg-gray-200 text-gray-800",
   red: "bg-red-200 text-red-800",
   yellow: "bg-yellow-200 text-yellow-800",
@@ -13,10 +13,10 @@ const colors = {
 
 interface BadgeProps {
   children: ReactNode;
-  color?: keyof typeof colors;
+  color?: keyof typeof BadgeColors;
 }
 export function Badge({ children, color = "gray" }: BadgeProps) {
-  const colorClasses = colors[color];
+  const colorClasses = BadgeColors[color];
   return (
     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium ${colorClasses}`}>
       {children}

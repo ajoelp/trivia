@@ -1,15 +1,16 @@
 import { Game } from "../../types/models";
 import { BaseFactory } from "./BaseFactory";
-import { randEmail, randText } from "@ngneat/falso";
+import { randEmail, randText, randUuid } from "@ngneat/falso";
 
 export const GameFactory: BaseFactory<Game> = {
   build: (attrs = {}) => {
     return {
+      id: randUuid(),
       name: randEmail(),
       code: randText(),
       active: true,
       state: {},
-      authorId: "rand-id",
+      authorId: randUuid(),
       ...attrs,
     } as Game;
   },

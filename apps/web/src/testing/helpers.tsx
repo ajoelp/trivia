@@ -3,7 +3,11 @@ import { ReactNode } from "react";
 import { AuthProvider } from "../providers/AuthProvider";
 import { User } from "../types/models";
 
-export const testingClient = new QueryClient();
+export const testingClient = new QueryClient({
+  defaultOptions: {
+    queries: { retry: false },
+  },
+});
 
 interface AppWrapperProps {
   children: ReactNode;

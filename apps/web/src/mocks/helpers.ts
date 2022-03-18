@@ -1,11 +1,10 @@
-export function respondWithData<T>(data: T, status: number = 200, once = false) {
+export function respondWithData<T>(data: T, status: number = 200) {
   return (req: any, res: any, ctx: any) => {
-    const method = once ? res.once : res;
-    return method(ctx.status(status), ctx.json(data));
+    return res(ctx.status(status), ctx.json(data));
   };
 }
 
-export function respondWithLoadingState<T>(data: T, status: number = 200, once = false) {
+export function respondWithLoadingState<T>(data: T, status: number = 200) {
   let resolve: (...args: any) => void = () => {};
 
   const promise = () =>
@@ -14,9 +13,8 @@ export function respondWithLoadingState<T>(data: T, status: number = 200, once =
     });
 
   const handler = async (req: any, res: any, ctx: any) => {
-    const method = once ? res.once : res;
     await promise();
-    return method(ctx.status(status), ctx.json(data));
+    return res(ctx.status(status), ctx.json(data));
   };
 
   return { handler, resolve };
