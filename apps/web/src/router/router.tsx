@@ -1,4 +1,4 @@
-import { Navigate, RouteObject, useRoutes, generatePath, useLocation } from "react-router-dom";
+import { Navigate, RouteObject, useRoutes, generatePath, useLocation, matchPath } from "react-router-dom";
 import { ComponentType, Suspense } from "react";
 import { RouteInstance } from "./shared";
 import { RouteNames, ROUTES } from "./routes";
@@ -45,8 +45,12 @@ const flattenRoutes = (routes: RouteInstance[], prefix?: string) => {
 const FlatRoutes: FlatRouteList = flattenRoutes(ROUTES);
 type Params = Record<string, any>;
 
+export function findRoute(name: RouteNames) {
+  return FlatRoutes.find((a) => a.name === name);
+}
+
 export function routePath(name: RouteNames, params: Params = {}, query: Params = {}) {
-  const route = FlatRoutes.find((a) => a.name === name);
+  const route = findRoute(name);
   if (!route || !route.path) return "/";
   let queryString = "";
   if (query && Object.keys(query).length > 0) {
@@ -63,6 +67,11 @@ function parseRoutes(routes: RouteInstance[]): RouteObject[] {
       ...rest,
     };
   });
+}
+
+export function useCurrentRoute() {
+  const location = useLocation();
+  return FlatRoutes.find((route) => matchPath(route.path ?? "", location.pathname));
 }
 
 export const Routes = () => {

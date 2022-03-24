@@ -12,3 +12,5 @@ export const generatePath = jest.fn(actualGeneratePath);
 export const Link = jest.fn(({ to, ...rest }) => <a href={to} data-testid="link-mock" {...rest} />);
 
 export const useNavigate = jest.fn(() => jest.fn());
+
+export const useParams = jest.fn(() => ({}));

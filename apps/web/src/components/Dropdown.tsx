@@ -18,7 +18,7 @@ interface DropdownProps {
 
 export default function Dropdown({ children, options }: DropdownProps) {
   const buttonClasses = (active: boolean) =>
-    classNames(active && "bg-gray-700", "block px-4 py-2 text-sm w-full text-left text-white");
+    classNames(active && "bg-zinc-700", "block px-4 py-2 text-sm w-full text-left text-white");
 
   const menuOptions = useMemo(() => {
     return options.map((option, index) => {
@@ -51,7 +51,7 @@ export default function Dropdown({ children, options }: DropdownProps) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex justify-center items-center w-full rounded-md shadow-sm px-4 py-2 text-sm font-medium text-white bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+        <Menu.Button className="inline-flex justify-center items-center w-full rounded-md shadow-sm px-4 py-2 text-sm font-medium text-white bg-zinc-700 hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-100 focus:ring-indigo-500">
           {children}
           <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
         </Menu.Button>
@@ -66,7 +66,7 @@ export default function Dropdown({ children, options }: DropdownProps) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-right absolute border border-gray-600 right-0 mt-2 w-56 rounded-md bg-gray-800 shadow-xl ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="origin-top-right absolute border border-zinc-600 right-0 mt-2 w-56 rounded-md bg-zinc-800 shadow-xl ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">{menuOptions}</div>
         </Menu.Items>
       </Transition>

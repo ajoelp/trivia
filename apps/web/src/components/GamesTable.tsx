@@ -5,6 +5,10 @@ import { Game } from "../types/models";
 import { Badge } from "./Badge";
 import { CopyToClipboard } from "./CopyToClipboard";
 import Loader from "./Loader";
+import { DateTime } from "../services/dates";
+import { Link } from "./Button";
+import { routePath } from "../router/router";
+import { RouteNames } from "../router/routes";
 
 export function GamesTable() {
   const { data, isLoading } = useGames();
@@ -26,7 +30,13 @@ export function GamesTable() {
       },
       {
         Header: "Created",
-        accessor: "createdAt",
+        accessor: (value) => `${DateTime.from(value.createdAt).toNow} ago`,
+      },
+      {
+        Header: "Actions",
+        accessor: (value) => {
+          return <Link href={routePath(RouteNames.EDIT_GAME, { id: value.id })}>Edit</Link>;
+        },
       },
     ];
   }, []);
@@ -40,8 +50,8 @@ export function GamesTable() {
   );
 
   return (
-    <div {...getTableProps()} className="min-w-full divide-y divide-gray-600 h-full relative">
-      <div className="sticky top-0 left-0 z-50 bg-gray-900">
+    <div {...getTableProps()} className="min-w-full divide-y divide-zinc-600 h-full relative">
+      <div className="sticky top-0 left-0 z-50 bg-zinc-900">
         {headerGroups.map((headerGroup) => (
           <div {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
@@ -66,7 +76,7 @@ export function GamesTable() {
         {rows.map((row) => {
           prepareRow(row);
           return (
-            <div {...row.getRowProps()} className="hover:bg-gray-600">
+            <div {...row.getRowProps()} className="hover:bg-zinc-600">
               {row.cells.map((cell) => {
                 return (
                   <div {...cell.getCellProps()} className="px-6 py-4 whitespace-nowrap text-sm">

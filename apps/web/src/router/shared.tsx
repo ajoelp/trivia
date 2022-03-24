@@ -1,5 +1,6 @@
 import { RouteObject } from "react-router-dom";
 import { LazyExoticComponent } from "react";
+import { RouteNames } from "./routes";
 
 export interface RouteInstance<T = string> extends Omit<RouteObject, "children" | "element"> {
   children?: RouteInstance[];
@@ -7,5 +8,5 @@ export interface RouteInstance<T = string> extends Omit<RouteObject, "children" 
   name?: T;
   title: string;
   auth?: boolean;
-  breadcrumbs?: string[];
+  breadcrumbs?: RouteNames[];
 }

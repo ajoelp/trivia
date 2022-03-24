@@ -2,6 +2,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactNode } from "react";
 import { AuthProvider } from "../providers/AuthProvider";
 import { User } from "../types/models";
+import { Services } from "../api/services";
+import { DeepMockProxy } from "jest-mock-extended";
 
 export const testingClient = new QueryClient({
   defaultOptions: {
@@ -43,3 +45,7 @@ export function flushPromises() {
 export function mockedFunction<T extends (...args: any[]) => any>(fn: T) {
   return fn as jest.MockedFunction<T>;
 }
+
+jest.mock("../api/services");
+
+export const mockServices = Services as unknown as DeepMockProxy<typeof Services>;

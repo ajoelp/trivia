@@ -27,26 +27,36 @@ describe("GameController", () => {
     expect(response.json).toEqual(expect.objectContaining({ id: game.id }));
   });
 
-  it("can create a game", async () => {
-    const user = await UserFactory.create();
-    const expectedName = "Test Game";
+  describe("create", () => {
+    it("can create a game", async () => {
+      const user = await UserFactory.create();
+      const expectedName = "Test Game";
 
-    const data = {
-      name: expectedName,
-    };
+      const data = {
+        name: expectedName,
+      };
 
-    const response = await testcase.actingAs(user).post("/games", data);
+      const response = await testcase.actingAs(user).post("/games", data);
 
-    expect(response.status).toEqual(201);
-    expect(response.json).toEqual(expect.objectContaining({ name: expectedName }));
+      expect(response.status).toEqual(201);
+      expect(response.json).toEqual(expect.objectContaining({ name: expectedName }));
 
-    expect(
-      await prisma.game.findFirst({
-        where: {
-          name: expectedName,
-        },
-      }),
-    ).toBeTruthy();
+      expect(
+        await prisma.game.findFirst({
+          where: {
+            name: expectedName,
+          },
+        }),
+      ).toBeTruthy();
+    });
+
+    it("will throw validation errors", async () => {
+      const user = await UserFactory.create();
+      const data = {};
+      const response = await testcase.actingAs(user).post("/games", data);
+
+      expect(response.status).toEqual(400);
+    });
   });
 
   it("can update a game", async () => {

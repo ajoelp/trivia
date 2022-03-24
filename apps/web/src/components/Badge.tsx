@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export const BadgeColors = {
-  gray: "bg-gray-200 text-gray-800",
+  gray: "bg-zinc-200 text-zinc-800",
   red: "bg-red-200 text-red-800",
   yellow: "bg-yellow-200 text-yellow-800",
   green: "bg-green-200 text-green-800",

@@ -1,10 +1,14 @@
 import "@testing-library/jest-dom";
-import { mswServer } from "./mocks/server";
 import { testingClient } from "./testing/helpers";
+import { setLogger } from "react-query";
 
-beforeAll(() => mswServer.listen());
+setLogger({
+  log: console.log,
+  warn: console.warn,
+  // ✅ no more errors on the console
+  error: () => {},
+});
+
 afterEach(() => {
-  mswServer.resetHandlers();
   testingClient.clear();
 });
-afterAll(() => mswServer.close());

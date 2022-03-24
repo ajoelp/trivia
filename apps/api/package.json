@@ -10,6 +10,7 @@
     "db:populate": "ts-node --transpile-only src/scripts/populate-database.ts"
   },
   "dependencies": {
+    "@ajoelp/express-validator": "^1.0.5",
     "@prisma/client": "^3.10.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

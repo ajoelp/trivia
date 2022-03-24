@@ -51,7 +51,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>((p
       <motion.div
         {...props}
         ref={ref}
-        className="bg-gray-900 text-sm rounded shadow-xl py-1 px-2"
+        className="bg-zinc-900 text-sm rounded shadow-xl py-1 px-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
