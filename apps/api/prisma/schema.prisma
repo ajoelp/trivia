@@ -28,5 +28,16 @@ model Game {
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
 
-  users User[] @relation("_UserGame")
+  users     User[]     @relation("_UserGame")
+  questions Question[]
+}
+
+model Question {
+  id         String @id @default(uuid())
+  value      String
+  answer     String
+  difficulty String
+
+  gameId String
+  game   Game   @relation(fields: [gameId], references: [id])
 }

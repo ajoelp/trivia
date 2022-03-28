@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 interface TooltipProps {
   children: ReactNode;
   value: string;
+  className?: string;
 }
 
 type TooltipContentProps = {
@@ -29,15 +30,16 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>((p
   const [node, setNode] = useState<HTMLDivElement>();
 
   useEffect(() => {
+    let element: HTMLDivElement;
     if (!node) {
-      const element = document.createElement("div");
+      element = document.createElement("div");
       element.classList.add("tooltip-portal");
       document.body.appendChild(element);
       setNode(element);
     }
     return () => {
-      if (node) {
-        document.body.removeChild(node);
+      if (element) {
+        document.body.removeChild(element);
       }
       setNode(undefined);
     };
@@ -51,7 +53,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>((p
       <motion.div
         {...props}
         ref={ref}
-        className="bg-zinc-900 text-sm rounded shadow-xl py-1 px-2"
+        className="bg-zinc-900 text-sm rounded shadow-xl py-1 px-2 max-w-[200px]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -63,7 +65,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>((p
   );
 });
 
-export function Tooltip({ children, value }: TooltipProps) {
+export function Tooltip({ children, value, className }: TooltipProps) {
   const [referenceElement, setReferenceElement] = useState<HTMLSpanElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -72,6 +74,7 @@ export function Tooltip({ children, value }: TooltipProps) {
   return (
     <>
       <span
+        className={className}
         onMouseOver={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         onFocus={() => setShowTooltip(true)}
@@ -82,7 +85,7 @@ export function Tooltip({ children, value }: TooltipProps) {
       </span>
       {showTooltip && (
         <TooltipContent ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-          {value}
+          <span dangerouslySetInnerHTML={{ __html: value }} />
         </TooltipContent>
       )}
     </>

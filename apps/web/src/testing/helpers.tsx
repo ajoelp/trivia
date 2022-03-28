@@ -4,6 +4,7 @@ import { AuthProvider } from "../providers/AuthProvider";
 import { User } from "../types/models";
 import { Services } from "../api/services";
 import { DeepMockProxy } from "jest-mock-extended";
+import { PortalProvider } from "../components/Portal";
 
 export const testingClient = new QueryClient({
   defaultOptions: {
@@ -28,11 +29,13 @@ export function testingWrapper(user?: User) {
 
 export const AppWrapper = ({ children, user }: AppWrapperProps) => {
   return (
-    <QueryClientProvider client={testingClient}>
-      <AuthProvider user={user} fetchOnMount={false}>
-        {children}
-      </AuthProvider>
-    </QueryClientProvider>
+    <PortalProvider>
+      <QueryClientProvider client={testingClient}>
+        <AuthProvider user={user} fetchOnMount={false}>
+          {children}
+        </AuthProvider>
+      </QueryClientProvider>
+    </PortalProvider>
   );
 };
 
@@ -47,5 +50,4 @@ export function mockedFunction<T extends (...args: any[]) => any>(fn: T) {
 }
 
 jest.mock("../api/services");
-
 export const mockServices = Services as unknown as DeepMockProxy<typeof Services>;

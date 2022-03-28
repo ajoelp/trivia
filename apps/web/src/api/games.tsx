@@ -1,14 +1,10 @@
 import { useMutation, useQuery } from "react-query";
-import { apiClient } from "./apiClient";
 import { Game } from "../types/models";
 import { Services } from "./services";
 import { toast } from "../services/toast";
 
 export function useGames() {
-  return useQuery(["games"], async () => {
-    const { data } = await apiClient.get<Game[]>("/games");
-    return data;
-  });
+  return useQuery(["games"], Services.games.list);
 }
 
 type OnSuccess = (game: Game) => void;

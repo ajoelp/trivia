@@ -21,13 +21,24 @@ async function populateDatabase() {
   const categories = await listAllCategories();
 
   for (const category of categories) {
-    await prisma.game.create({
+    const game = await prisma.game.create({
       data: {
         name: category.name,
         code: await generateGameCode(),
         state: {},
         author: { connect: { id: user.id } },
       },
+    });
+
+    const questions = await listQuestionsByCategory(category);
+
+    await prisma.question.createMany({
+      data: questions.map((question) => ({
+        value: question.question,
+        difficulty: question.difficulty,
+        answer: question.correct_answer,
+        gameId: game.id,
+      })),
     });
   }
 
@@ -39,9 +50,30 @@ type Category = {
   name: string;
 };
 
+type Question = {
+  category: string;
+  type: string;
+  difficulty: string;
+  question: string;
+  correct_answer: string;
+  incorrect_answers: string[];
+};
+
+function randomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 async function listAllCategories(): Promise<Category[]> {
   const { data } = await axios.get("https://opentdb.com/api_category.php");
   return data.trivia_categories;
+}
+
+async function listQuestionsByCategory(category: Category): Promise<Question[]> {
+  const randomAmount = randomInt(20, 50);
+  const { data } = await axios.get(
+    `https://opentdb.com/api.php?amount=${randomAmount}&category=${category.id}&type=multiple`,
+  );
+  return data.results;
 }
 
 populateDatabase()

@@ -9,6 +9,7 @@ import { RouteNames } from "../../router/routes";
 import { useCreateGame, useGame, useUpdateGame } from "../../api/games";
 import { CopyToClipboard } from "../../components/CopyToClipboard";
 import { useMemo } from "react";
+import { QuestionsList } from "../../components/QuestionsList";
 
 export default function ManageGame() {
   const { handleSubmit, control, setError, reset } = useForm<Partial<Game>>();
@@ -28,7 +29,9 @@ export default function ManageGame() {
   const onSubmit = (game: Partial<Game>) =>
     method.mutate(game, {
       onSuccess(data) {
-        navigate(routePath(RouteNames.EDIT_GAME, { id: data.id }));
+        if (!params?.id) {
+          navigate(routePath(RouteNames.EDIT_GAME, { id: data.id }));
+        }
       },
       onError(error: any) {
         if (error?.response?.data?.messages) {
@@ -71,7 +74,7 @@ export default function ManageGame() {
           </Button>
         </form>
       </div>
-      <div></div>
+      <div className="flex flex-col w-full">{game?.id && <QuestionsList gameId={game.id} />}</div>
     </div>
   );
 }

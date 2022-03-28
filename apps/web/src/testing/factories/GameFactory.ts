@@ -11,6 +11,7 @@ export const GameFactory: BaseFactory<Game> = {
       active: true,
       state: {},
       authorId: randUuid(),
+      createdAt: new Date().toISOString(),
       ...attrs,
     } as Game;
   },

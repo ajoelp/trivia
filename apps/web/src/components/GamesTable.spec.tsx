@@ -1,9 +1,6 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { GamesTable } from "./GamesTable";
-import { flushPromises, testingWrapper } from "../testing/helpers";
-import { mswServer } from "../mocks/server";
-import { rest } from "msw";
-import { respondWithData } from "../mocks/helpers";
+import { flushPromises, mockServices, testingWrapper } from "../testing/helpers";
 import { Game } from "../types/models";
 import { GameFactory } from "../testing/factories/GameFactory";
 
@@ -20,7 +17,7 @@ describe("GamesTable", () => {
 
   it("will render the table with games", async () => {
     const games: Game[] = GameFactory.buildMany(10);
-    await mswServer.use(rest.get("/games", respondWithData(games, 200)));
+    mockServices.games.list.mockResolvedValue(games);
 
     renderComponent();
     await flushPromises();

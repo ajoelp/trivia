@@ -32,7 +32,7 @@ beforeAll(() => {
 });
 
 afterEach(async () => {
-  await prisma.$transaction([prisma.game.deleteMany(), prisma.user.deleteMany()]);
+  await prisma.$transaction([prisma.question.deleteMany(), prisma.game.deleteMany(), prisma.user.deleteMany()]);
 });
 
 afterAll(async () => {

@@ -7,6 +7,7 @@ export async function GetGames(req: ApiRequest, res: Response) {
   return res.json(
     await prisma.game.findMany({
       where: { authorId: req.user.id },
+      orderBy: { createdAt: "desc" },
     }),
   );
 }

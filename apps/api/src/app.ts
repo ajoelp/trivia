@@ -8,6 +8,7 @@ import { GamesRouter } from "./games/GamesRouter";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { GameNamespace } from "./sockets/GameNamespace";
+import { QuestionsRouter } from "./questions/QuestionsRouter";
 
 const app = express();
 const httpServer = createServer(app);
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 
 app.use(AuthRouter);
 app.use(GamesRouter);
+app.use(QuestionsRouter);
 
 app.use(globalErrorMiddleware);
 

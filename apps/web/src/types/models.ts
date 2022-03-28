@@ -13,6 +13,15 @@ export interface Game {
   authorId: string;
 }
 
+export interface Question {
+  id: string;
+  value: string;
+  answer: string;
+  difficulty: string;
+  createdAt: string;
+  gameId: string;
+}
+
 export interface GameWithAuthor extends Game {
   author: User;
 }
