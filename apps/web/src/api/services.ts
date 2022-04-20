@@ -1,4 +1,4 @@
-import { Game, Question } from "../types/models";
+import { Game, Question } from "@trivia/shared/types";
 import { apiClient } from "./apiClient";
 
 export const Services = {

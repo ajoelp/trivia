@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { apiClient } from "./apiClient";
-import { User } from "../types/models";
+import { User } from "@trivia/shared/types";
 
 export function useCurrentUser(enabled: boolean = true) {
   return useQuery(

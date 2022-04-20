@@ -1,4 +1,4 @@
-import { User } from "../types/models";
+import { User } from "@trivia/shared/types";
 import { createContext, ReactNode, useContext } from "react";
 import { useCurrentUser } from "../api/users";
 import Cookies from "js-cookie";

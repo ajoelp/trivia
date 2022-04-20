@@ -1,4 +1,4 @@
-import { Game } from "../../types/models";
+import { Game } from "@trivia/shared/types";
 import { BaseFactory } from "./BaseFactory";
 import { randEmail, randText, randUuid } from "@ngneat/falso";
 

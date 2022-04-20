@@ -1779,13 +1779,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-table@^7.7.9":
-  version "7.7.9"
-  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-7.7.9.tgz#ea82875775fc6ee71a28408dcc039396ae067c92"
-  integrity sha512-ejP/J20Zlj9VmuLh73YgYkW2xOSFTW39G43rPH93M4mYWdMmqv66lCCr+axZpkdtlNLGjvMG2CwzT4S6abaeGQ==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-window@^1.8.5":
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/@types/react-window/-/react-window-1.8.5.tgz#285fcc5cea703eef78d90f499e1457e9b5c02fc1"
@@ -3029,6 +3022,11 @@ detective@^5.2.0:
     acorn-node "^1.6.1"
     defined "^1.0.0"
     minimist "^1.1.1"
+
+dialog-manager-react@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/dialog-manager-react/-/dialog-manager-react-2.0.5.tgz#a4d7040751d631af5ea710e75d75abc471b49c3f"
+  integrity sha512-h9JBezAyB9PsXeM58HRnxnZ+2lcMBbQRYEcwlXCRnZO5rIKTuX5wi73drNJSBcK5aG5psXBsnjP9KjsEOPvCGw==
 
 didyoumean@^1.2.2:
   version "1.2.2"
@@ -6095,11 +6093,6 @@ react-router@6.2.1:
   integrity sha512-2fG0udBtxou9lXtK97eJeET2ki5//UWfQSl1rlJ7quwe6jrktK9FCCc8dQb5QY6jAv3jua8bBQRhhDOM/kVRsg==
   dependencies:
     history "^5.2.0"
-
-react-table@^7.7.0:
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.7.0.tgz#e2ce14d7fe3a559f7444e9ecfe8231ea8373f912"
-  integrity sha512-jBlj70iBwOTvvImsU9t01LjFjy4sXEtclBovl3mTiqjz23Reu0DKnRza4zlLtOPACx6j2/7MrQIthIK1Wi+LIA==
 
 react-window@^1.8.6:
   version "1.8.6"

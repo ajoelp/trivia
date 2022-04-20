@@ -1,4 +1,4 @@
-import { Game } from "../../types/models";
+import { Game } from "@trivia/shared/types";
 import { useForm } from "react-hook-form";
 import TextInput from "../../components/TextInput";
 import Toggle from "../../components/Toggle";
@@ -74,7 +74,7 @@ export default function ManageGame() {
           </Button>
         </form>
       </div>
-      <div className="flex flex-col w-full">{game?.id && <QuestionsList gameId={game.id} />}</div>
+      <div className="flex flex-col flex-1">{game?.id && <QuestionsList gameId={game.id} />}</div>
     </div>
   );
 }

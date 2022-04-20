@@ -1,4 +1,4 @@
-const { generatePath: actualGeneratePath } = jest.requireActual("react-router-dom");
+const { generatePath: actualGeneratePath, matchPath: actualMatchPath } = jest.requireActual("react-router-dom");
 
 export const Navigate = jest.fn(() => <div data-testid="navigate-mock" />);
 
@@ -14,3 +14,5 @@ export const Link = jest.fn(({ to, ...rest }) => <a href={to} data-testid="link-
 export const useNavigate = jest.fn(() => jest.fn());
 
 export const useParams = jest.fn(() => ({}));
+
+export const matchPath = jest.fn(actualMatchPath);

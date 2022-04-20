@@ -1,9 +1,8 @@
 import { useQuestions } from "../api/questions";
-import { Column } from "react-table";
-import { useMemo } from "react";
-import { Question } from "../types/models";
-import { Table } from "./Table";
-import { Tooltip } from "./Tooltip";
+import { Table, TableColumn } from "./Table";
+import { useEffect, useMemo, useState } from "react";
+import { Question } from "@trivia/shared/types";
+import { useDialogs } from "../dialogs/DialogManager";
 
 interface QuestionsListProps {
   gameId: string;
@@ -11,46 +10,35 @@ interface QuestionsListProps {
 
 export function QuestionsList({ gameId }: QuestionsListProps) {
   const { data, isLoading } = useQuestions(gameId);
+  const { openDialog } = useDialogs();
 
-  const columns = useMemo<Column<Question>[]>(() => {
+  const columns = useMemo<TableColumn<Question, any>[]>(() => {
     return [
+      { label: "Question", accessor: (data) => <p dangerouslySetInnerHTML={{ __html: data.value }} /> },
+      { label: "Answer", accessor: (data) => <p dangerouslySetInnerHTML={{ __html: data.answer }} /> },
+      { label: "Difficulty", accessor: (data) => <p>{data.difficulty}</p> },
       {
-        Header: "Question",
-        accessor: (question) => {
-          return (
-            <Tooltip value={question.value} className="max-w-full inline-block">
-              <p dangerouslySetInnerHTML={{ __html: question.value }} className="truncate w-full" />
-            </Tooltip>
-          );
-        },
-      },
-      {
-        Header: "Answer",
-        accessor: (question) => {
-          return (
-            <Tooltip value={question.answer} className="w-full inline-block">
-              <p dangerouslySetInnerHTML={{ __html: question.answer }} className="truncate w-full" />
-            </Tooltip>
-          );
-        },
-      },
-      {
-        Header: "Difficulty",
-        accessor: "difficulty",
-      },
-      {
-        Header: "Actions",
-        accessor: (value) => {
-          return (
-            <div className="flex gap-2">
-              <button>Edit</button>
-              <button>Delete</button>
-            </div>
-          );
-        },
+        label: "Actions",
+        className: "text-right",
+        accessor: (data) => (
+          <div className="flex gap-2 justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                openDialog("modifyQuestion", {
+                  gameId: data.gameId,
+                  questionId: data.id,
+                });
+              }}
+            >
+              Edit
+            </button>
+            <button>Delete</button>
+          </div>
+        ),
       },
     ];
   }, []);
 
-  return <Table columns={columns} data={data ?? []} />;
+  return <Table columns={columns} data={data ?? []} emptyPlaceholder={<p>No Content</p>} />;
 }

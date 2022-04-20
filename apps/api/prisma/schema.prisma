@@ -37,6 +37,7 @@ model Question {
   value      String
   answer     String
   difficulty String
+  createdAt DateTime @default(now())
 
   gameId String
   game   Game   @relation(fields: [gameId], references: [id])

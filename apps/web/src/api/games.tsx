@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "react-query";
-import { Game } from "../types/models";
+import { Game } from "@trivia/shared/types";
 import { Services } from "./services";
 import { toast } from "../services/toast";
 

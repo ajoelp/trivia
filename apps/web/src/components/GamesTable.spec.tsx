@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { GamesTable } from "./GamesTable";
 import { flushPromises, mockServices, testingWrapper } from "../testing/helpers";
-import { Game } from "../types/models";
+import { Game } from "@trivia/shared/types";
 import { GameFactory } from "../testing/factories/GameFactory";
 
 const renderComponent = () => {

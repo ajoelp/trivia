@@ -3,14 +3,17 @@ import { classNames } from "../services/utils";
 import { AnimatePresence, motion } from "framer-motion";
 
 export interface FormControlProps {
+  label?: string;
+  name?: string;
   children: ReactNode;
   error?: string;
   className?: string;
 }
 
-export function FormControl({ error, children, className }: FormControlProps) {
+export function FormControl({ label, name, error, children, className }: FormControlProps) {
   return (
     <div className={classNames("flex flex-col gap-2 relative", className)}>
+      {label && <label htmlFor={name}>{label}</label>}
       {children}
       {error && (
         <AnimatePresence>

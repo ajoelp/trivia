@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ajoelp/express-validator": "^1.0.5",
+    "@trivia/shared": "1.0.0",
     "@prisma/client": "^3.10.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

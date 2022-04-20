@@ -3,29 +3,28 @@ import { Control, FieldValues, useController, Path, FieldPath } from "react-hook
 import { FieldPathValue, UnpackNestedValue } from "react-hook-form/dist/types";
 import { classNames } from "../services/utils";
 
-type InputProps = JSX.IntrinsicElements["input"];
+type InputProps = JSX.IntrinsicElements["select"];
 
-type TextInputProps<
+type SelectInputProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
   label: string;
   name: Path<TFieldValues>;
-  type?: InputProps["type"];
   control: Control<TFieldValues>;
   defaultValue: UnpackNestedValue<FieldPathValue<TFieldValues, TName>>;
   className?: string;
+  children: InputProps["children"];
 } & Omit<FormControlProps, "children" | "error">;
 
-export default function TextInput<TFieldValues extends FieldValues = FieldValues>({
+export default function SelectInput<TFieldValues extends FieldValues = FieldValues>({
   label,
   name,
-  type = "text",
   control,
   defaultValue,
   className,
   ...rest
-}: TextInputProps<TFieldValues>) {
+}: SelectInputProps<TFieldValues>) {
   const {
     field: { onChange, value },
     formState: { errors },
@@ -37,9 +36,9 @@ export default function TextInput<TFieldValues extends FieldValues = FieldValues
 
   return (
     <FormControl error={errors?.[name]?.message} className={className} label={label} name={name}>
-      <input
+      <select
         className={classNames("bg-zinc-900 h-10 rounded border-zinc-800")}
-        {...{ name, type, onChange, value, id: name, ...rest }}
+        {...{ name, onChange, value, id: name, ...rest }}
       />
     </FormControl>
   );

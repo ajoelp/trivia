@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { flushPromises, testingWrapper } from "../testing/helpers";
 import { NavBar } from "./NavBar";
-import { User } from "../types/models";
+import { User } from "@trivia/shared/types";
 import userEvent from "@testing-library/user-event";
 import { useNavigate } from "react-router-dom";
 import { RouteNames } from "../router/routes";
@@ -11,7 +11,6 @@ import Cookies from "js-cookie";
 describe("NavBar", () => {
   it("wil render the component", async () => {
     render(<NavBar />, { wrapper: testingWrapper() });
-    expect(await screen.findByText("trivi")).toBeInTheDocument();
   });
 
   it("will show the current users email address", async () => {

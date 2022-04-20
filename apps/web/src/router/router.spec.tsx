@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { testingWrapper } from "../testing/helpers";
 import { Route } from "./router";
-import { User } from "../types/models";
+import { User } from "@trivia/shared/types";
 import { Navigate } from "react-router-dom";
 
 describe("router", () => {

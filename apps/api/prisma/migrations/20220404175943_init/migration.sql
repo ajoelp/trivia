@@ -20,6 +20,18 @@ CREATE TABLE "Game" (
 );
 
 -- CreateTable
+CREATE TABLE "Question" (
+    "id" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+    "answer" TEXT NOT NULL,
+    "difficulty" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "gameId" TEXT NOT NULL,
+
+    CONSTRAINT "Question_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "__UserGame" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
@@ -39,6 +51,9 @@ CREATE INDEX "__UserGame_B_index" ON "__UserGame"("B");
 
 -- AddForeignKey
 ALTER TABLE "Game" ADD CONSTRAINT "Game_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Question" ADD CONSTRAINT "Question_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "__UserGame" ADD FOREIGN KEY ("A") REFERENCES "Game"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -1,50 +1,40 @@
 import { useGames } from "../api/games";
-import { Column } from "react-table";
-import { useMemo } from "react";
-import { Game } from "../types/models";
-import { Badge } from "./Badge";
-import { CopyToClipboard } from "./CopyToClipboard";
-import { DateTime } from "../services/dates";
-import { Link } from "./Button";
+import { Table, TableColumn } from "./Table";
+import { Game } from "@trivia/shared/types";
 import { routePath } from "../router/router";
 import { RouteNames } from "../router/routes";
-import { Table } from "./Table";
+import { DateTime } from "../services/dates";
+import { CopyToClipboard } from "./CopyToClipboard";
+import { Badge } from "./Badge";
+
+const columns: TableColumn<Game, any>[] = [
+  {
+    label: "Name",
+    accessor: "name",
+  },
+  {
+    label: "Active",
+    accessor: (originalRow) =>
+      originalRow.active ? <Badge color="green">Active</Badge> : <Badge color="red">Inactive</Badge>,
+  },
+  {
+    label: "Code",
+    accessor: (value) => <CopyToClipboard value={value.code} />,
+  },
+  {
+    label: "Created",
+    accessor: (value) => `${DateTime.from(value.createdAt).toNow} ago`,
+  },
+  {
+    label: "Actions",
+    className: "text-right",
+    accessor: (value) => {
+      return <a href={routePath(RouteNames.EDIT_GAME, { id: value.id })}>Edit</a>;
+    },
+  },
+];
 
 export function GamesTable() {
   const { data, isLoading } = useGames();
-
-  const columns: Column<Game>[] = useMemo(() => {
-    return [
-      {
-        Header: "Name",
-        accessor: "name",
-      },
-      {
-        Header: "Active",
-        accessor: (originalRow) =>
-          originalRow.active ? <Badge color="green">Active</Badge> : <Badge color="red">Inactive</Badge>,
-      },
-      {
-        Header: "Code",
-        accessor: (value) => <CopyToClipboard value={value.code} />,
-      },
-      {
-        Header: "Created",
-        accessor: (value) => `${DateTime.from(value.createdAt).toNow} ago`,
-      },
-      {
-        Header: "Actions",
-        width: "auto",
-        accessor: (value) => {
-          return (
-            <Link variant="color" size="sm" href={routePath(RouteNames.EDIT_GAME, { id: value.id })}>
-              Edit
-            </Link>
-          );
-        },
-      },
-    ];
-  }, []);
-
-  return <Table columns={columns} data={data ?? []} />;
+  return <Table columns={columns} data={data ?? []} emptyPlaceholder={<p>No Results</p>} />;
 }

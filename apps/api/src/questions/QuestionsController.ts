@@ -6,6 +6,7 @@ import { StatusCodes } from "../services/StatusCodes";
 export async function list(req: ApiRequest, res: Response) {
   const questions = await prisma.question.findMany({
     where: { gameId: req.params.gameId },
+    orderBy: { createdAt: "desc" },
   });
   return res.json(questions);
 }

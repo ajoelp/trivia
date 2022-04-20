@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactNode } from "react";
 import { AuthProvider } from "../providers/AuthProvider";
-import { User } from "../types/models";
+import { User } from "@trivia/shared/types";
 import { Services } from "../api/services";
 import { DeepMockProxy } from "jest-mock-extended";
 import { PortalProvider } from "../components/Portal";
