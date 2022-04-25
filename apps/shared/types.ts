@@ -39,20 +39,42 @@ export interface GameWithAuthor extends Game {
 }
 
 export enum GameStates {
-    PENDING = 'pending'
+    PENDING = 'pending',
+    STARTED = 'started',
+    QUESTION_ASKED = 'question-asked',
+    ANSWERS_REQUIRED = 'answers-required',
+    HOST_EVALUATING = 'host-evaluating',
+    SHOWING_SCORES = 'showing-scores',
+    COMPLETE = 'complete'
 }
 
 export interface TeamMember {
-    uuid: string
+    id: string
     name: string
 }
 
 export interface Team {
+    id: string
     name: string
-    clients: TeamMember[]
+    members: TeamMember[]
+}
+
+
+export interface Answer {
+    answer?: string,
+    isCorrect?: boolean
+}
+
+export interface QuestionAnswers {
+    questionId: string
+    answers: {
+        [teamId: string]: Answer
+    }
 }
 
 export interface GameState {
-    state: GameStates.PENDING
-    teams: []
+    state: GameStates
+    currentQuestionId?: string
+    teams: Team[]
+    answers: QuestionAnswers[]
 }

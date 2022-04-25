@@ -2,6 +2,7 @@ import { Response } from "express";
 import { prisma } from "../../prisma";
 import { ApiRequest } from "../types/Api";
 import { generateGameCode } from "../services/generateGameCode";
+import { GameState } from "../services/games-state/GameState";
 
 export async function GetGames(req: ApiRequest, res: Response) {
   return res.json(
@@ -23,7 +24,7 @@ export async function CreateGame(req: ApiRequest, res: Response) {
         ...req.body,
         code: await generateGameCode(),
         author: { connect: { id: req.user.id } },
-        state: {},
+        state: new GameState().toJson(),
       },
     }),
   );

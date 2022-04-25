@@ -1,19 +1,21 @@
 import { Namespace, Server, Socket } from "socket.io";
 import { prisma } from "../../prisma";
+import { GameEvents } from "./GameEvents";
 
-type GameClients = Record<string, Socket[]>;
+type GameClients = Map<string, GameEvents>;
 
 export class GameNamespaceService {
   REGEX = /\/(.*)/;
   namespace: Namespace;
 
-  _games: GameClients = {};
+  games: GameClients = new Map();
 
   start(io: Server) {
     this.namespace = io.of(this.REGEX);
 
-    this.namespace.on("connection", (socket) => {
-      this.onConnection(socket);
+    this.namespace.on("connection", async (socket) => {
+      await this.onConnection(socket);
+
       socket.on("disconnect", () => {
         this.onDisconnect(socket);
       });
@@ -26,33 +28,43 @@ export class GameNamespaceService {
 
   async onConnection(socket: Socket): Promise<void> {
     const code = this.getGameCode(socket);
-    if (!code || !(await this.hasExistingGame(code))) {
+
+    if (!code || !(await GameNamespaceService.hasExistingGame(code))) {
       socket.disconnect();
       return;
     }
-    this._games[code] = [...(this._games[code] ?? []), socket];
+
+    if (!this.games.has(code)) {
+      this.games.set(code, new GameEvents(code));
+    }
+
+    this.games.get(code).addClient(socket);
   }
 
   onDisconnect(socket: Socket): void {
     const code = this.getGameCode(socket);
-    const currentIndex = this._games[code]?.findIndex((client) => client.id === socket.id) ?? -1;
-    if (currentIndex < 0) return;
-    this._games[code].splice(currentIndex, 1);
+
+    if (!this.games.has(code)) return;
+
+    this.games.get(code).removeClient(socket);
+
+    if (this.games.get(code).isEmpty) {
+      this.games.delete(code);
+    }
   }
 
   totalConnectedClients() {
-    return Object.values(this._games).reduce((carry, clients) => carry + clients.length, 0);
+    return Object.values(this.games).reduce((carry, clients) => carry + clients.length, 0);
   }
 
-  private async hasExistingGame(code: string): Promise<boolean> {
+  private static async hasExistingGame(code: string): Promise<boolean> {
     return Boolean(await prisma.game.findUnique({ where: { code } }));
   }
 
   private debugLog() {
-    const games = Object.entries(this._games).reduce((carry, [code, clients]) => {
+    const games = Object.entries(this.games).reduce((carry, [code, clients]) => {
       return { ...carry, [code]: clients?.length ?? 0 };
     }, {});
-    console.table(games);
   }
 }
 

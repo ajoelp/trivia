@@ -36,7 +36,7 @@ describe("GameNamespaceService", () => {
       const socket = makeSocket(`/${game.code}`);
 
       await service.onConnection(socket);
-      expect(service._games[game.code]).toContain(socket);
+      expect(service.games[game.code]).toContain(socket);
       expect(service.totalConnectedClients()).toEqual(1);
     });
 
@@ -66,28 +66,28 @@ describe("GameNamespaceService", () => {
       const code = "randomcode";
       const socket = makeSocket(`/${code}`);
 
-      service._games[code] = [socket];
+      service.games[code] = [socket];
 
       service.onDisconnect(socket);
-      expect(service._games[code]).toHaveLength(0);
+      expect(service.games[code]).toHaveLength(0);
     });
 
     it("will remove specific socket", () => {
       const service = new GameNamespaceService();
       const code = "valid-code";
       const [socket1, socket2, socket3] = Array.from({ length: 3 }).map(() => makeSocket(`/${code}`));
-      service._games[code] = [socket1, socket2, socket3];
+      service.games[code] = [socket1, socket2, socket3];
 
       service.onDisconnect(socket2);
-      expect(service._games[code]).toHaveLength(2);
-      expect(service._games[code]).toEqual([socket1, socket3]);
+      expect(service.games[code]).toHaveLength(2);
+      expect(service.games[code]).toEqual([socket1, socket3]);
 
       service.onDisconnect(socket3);
-      expect(service._games[code]).toHaveLength(1);
-      expect(service._games[code]).toEqual([socket1]);
+      expect(service.games[code]).toHaveLength(1);
+      expect(service.games[code]).toEqual([socket1]);
 
       service.onDisconnect(socket1);
-      expect(service._games[code]).toHaveLength(0);
+      expect(service.games[code]).toHaveLength(0);
     });
   });
 });
