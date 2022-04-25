@@ -15,7 +15,6 @@ GamesRouter.post("/games", [
     active: ["nullable", "boolean"],
   }),
   AuthMiddleware,
-  UserHasAccessToGame(),
   validationResponseMiddleware,
   CreateGame,
 ]);

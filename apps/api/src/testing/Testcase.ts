@@ -9,9 +9,20 @@ type Methods = "get" | "post" | "put" | "patch" | "delete";
 
 export class TestCase {
   headers: Record<string, any> = {};
+  exceptions = false;
 
   static make() {
     return new TestCase();
+  }
+
+  withExceptions() {
+    this.exceptions = true;
+    return this;
+  }
+
+  withoutExceptions() {
+    this.exceptions = false;
+    return this;
   }
 
   actingAs(user: User) {
@@ -50,8 +61,9 @@ export class TestCase {
   }
 
   private processErrors(result: RequestResponse) {
-    if (result.json?.trace) {
-      console.log(result.json.trace);
+    if (result.json?.trace || this.exceptions) {
+      console.log(result.json);
     }
+    this.withoutExceptions();
   }
 }

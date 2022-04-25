@@ -54,7 +54,7 @@ export class GameNamespaceService {
   }
 
   totalConnectedClients() {
-    return Object.values(this.games).reduce((carry, clients) => carry + clients.length, 0);
+    return [...this.games.values()].reduce((carry, gameInstance) => carry + gameInstance.clients.length, 0);
   }
 
   private static async hasExistingGame(code: string): Promise<boolean> {

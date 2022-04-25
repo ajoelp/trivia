@@ -2,6 +2,7 @@ import { GameNamespaceService } from "./GameNamespace";
 import { UserFactory } from "../testing/factories/UserFactory";
 import { GameFactory } from "../testing/factories/GameFactory";
 import { v4 } from "uuid";
+import { GameEvents } from "./GameEvents";
 
 const makeSocket = (code: string) =>
   ({
@@ -36,7 +37,7 @@ describe("GameNamespaceService", () => {
       const socket = makeSocket(`/${game.code}`);
 
       await service.onConnection(socket);
-      expect(service.games[game.code]).toContain(socket);
+      expect(service.games.get(game.code).clients).toContain(socket);
       expect(service.totalConnectedClients()).toEqual(1);
     });
 
@@ -66,28 +67,33 @@ describe("GameNamespaceService", () => {
       const code = "randomcode";
       const socket = makeSocket(`/${code}`);
 
-      service.games[code] = [socket];
+      const instance = new GameEvents(code);
+      instance.clients = [socket];
+      service.games.set(code, instance);
 
       service.onDisconnect(socket);
-      expect(service.games[code]).toHaveLength(0);
+      expect(service.games.get(code)).toBeUndefined();
     });
 
     it("will remove specific socket", () => {
       const service = new GameNamespaceService();
       const code = "valid-code";
       const [socket1, socket2, socket3] = Array.from({ length: 3 }).map(() => makeSocket(`/${code}`));
-      service.games[code] = [socket1, socket2, socket3];
+
+      const instance = new GameEvents(code);
+      instance.clients = [socket1, socket2, socket3];
+      service.games.set(code, instance);
 
       service.onDisconnect(socket2);
-      expect(service.games[code]).toHaveLength(2);
-      expect(service.games[code]).toEqual([socket1, socket3]);
+      expect(service.games.get(code).clients).toHaveLength(2);
+      expect(service.games.get(code).clients).toEqual([socket1, socket3]);
 
       service.onDisconnect(socket3);
-      expect(service.games[code]).toHaveLength(1);
-      expect(service.games[code]).toEqual([socket1]);
+      expect(service.games.get(code).clients).toHaveLength(1);
+      expect(service.games.get(code).clients).toEqual([socket1]);
 
       service.onDisconnect(socket1);
-      expect(service.games[code]).toHaveLength(0);
+      expect(service.games.get(code)).toBeUndefined();
     });
   });
 });

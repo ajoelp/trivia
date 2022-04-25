@@ -1,6 +1,5 @@
 import { google } from "googleapis";
 import { OAUTH_CREDENTIALS } from "../config";
-import { OAuth2Client } from "google-auth-library";
 import { findOrCreateUser } from "./users-service";
 
 export class GoogleAuth {
@@ -8,7 +7,7 @@ export class GoogleAuth {
     return new GoogleAuth();
   }
 
-  createConnection(): OAuth2Client {
+  createConnection() {
     return new google.auth.OAuth2(
       OAUTH_CREDENTIALS.client_id,
       OAUTH_CREDENTIALS.client_secret,
