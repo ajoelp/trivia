@@ -14,7 +14,7 @@ describe("TextInput", () => {
     const value = "new value";
     const view = renderComponent(name, label);
 
-    userEvent.type(await screen.findByLabelText(label), value);
+    await userEvent.type(await screen.findByLabelText(label), value);
 
     expect(view()).toEqual(
       expect.objectContaining({

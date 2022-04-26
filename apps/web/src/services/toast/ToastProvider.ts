@@ -1,4 +1,4 @@
-import { v4 as uuid } from "uuid";
+import { v1 as uuid } from "uuid";
 
 export type ToastMessageTypes = "success" | "error" | "warning";
 
@@ -42,7 +42,7 @@ export default class ToastProvider {
     return this.add("warning", message, duration);
   }
 
-  private add(type: ToastMessageTypes, message: string, duration?: number): string {
+  add(type: ToastMessageTypes, message: string, duration?: number): string {
     const key = uuid();
     this.addMessage(key, {
       type,

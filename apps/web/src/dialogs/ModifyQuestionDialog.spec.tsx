@@ -89,7 +89,7 @@ describe("ModifyQuestionDialog", () => {
     renderComponent({ questionId: question.id });
     expect(mockServices.questions.fetch).toHaveBeenCalledWith(gameId, question.id);
 
-    expect(await screen.findByLabelText("Question")).toHaveValue(question.value);
+    await waitFor(async () => expect(await screen.findByLabelText("Question")).toHaveValue(question.value));
     expect(await screen.findByLabelText("Answer")).toHaveValue(question.answer);
     expect(await screen.findByLabelText("Difficulty")).toHaveValue(question.difficulty);
   });

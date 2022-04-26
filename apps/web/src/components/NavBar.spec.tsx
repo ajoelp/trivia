@@ -30,9 +30,9 @@ describe("NavBar", () => {
 
     const button = await screen.findByAltText(user.email);
     expect(await screen.findByAltText(user.email)).toBeInTheDocument();
-    userEvent.click(button);
+    await userEvent.click(button);
     const logout = await screen.findByText("Logout");
-    userEvent.click(logout);
+    await userEvent.click(logout);
     await flushPromises();
 
     expect(navigate).toHaveBeenCalledWith(routePath(RouteNames.ROOT));

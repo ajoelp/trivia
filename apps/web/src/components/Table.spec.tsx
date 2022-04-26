@@ -2,6 +2,7 @@ import { randUuid } from "@ngneat/falso";
 import { render, screen } from "@testing-library/react";
 import { Table, TableColumn } from "./Table";
 import userEvent from "@testing-library/user-event";
+
 describe("Table", () => {
   type DataItem = {
     name: string;
@@ -49,7 +50,7 @@ describe("Table", () => {
     };
 
     render(<Table columns={[column]} data={data} extraProps={extraProps} />);
-    userEvent.click(await screen.findByTestId("item-0-button"));
+    await userEvent.click(await screen.findByTestId("item-0-button"));
     expect(extraProps.somethingClicked).toHaveBeenCalled();
   });
 

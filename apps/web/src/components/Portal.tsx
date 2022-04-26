@@ -88,6 +88,7 @@ export function PortalTarget({ name }: PortalTargetProps) {
     return () => {
       removePortal(name);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
   return <div data-testid={[PORTAL_PREFIX, name].join("-")} ref={ref} />;
 }

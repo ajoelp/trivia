@@ -13,7 +13,7 @@ describe("Toggle", () => {
     const label = "Toggle Label";
     const view = renderComponent(label, name);
 
-    userEvent.click(await screen.findByLabelText(label));
+    await userEvent.click(await screen.findByLabelText(label));
 
     expect(view()).toEqual(
       expect.objectContaining({
@@ -21,7 +21,7 @@ describe("Toggle", () => {
       }),
     );
 
-    userEvent.click(await screen.findByLabelText(label));
+    await userEvent.click(await screen.findByLabelText(label));
 
     expect(view()).toEqual(
       expect.objectContaining({

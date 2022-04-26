@@ -1,4 +1,4 @@
-import { ReactNode, useCallback } from "react";
+import React, { ReactNode, useCallback } from "react";
 import { classNames } from "../services/utils";
 
 type TableAccessor<DataType, ExtraProps> =
@@ -26,11 +26,11 @@ export function Table<DataType, ExtraProps>({
   emptyPlaceholder,
 }: TableProps<DataType, ExtraProps>) {
   const processColumn = useCallback(
-    (accessor: TableAccessor<DataType, ExtraProps>, data: DataType, index: number) => {
+    (accessor: TableAccessor<DataType, ExtraProps>, data: DataType, index: number): ReactNode => {
       if (typeof accessor === "function") {
         return accessor(data, index, extraProps);
       }
-      return data[accessor];
+      return <>{data[accessor]}</>;
     },
     [extraProps],
   );

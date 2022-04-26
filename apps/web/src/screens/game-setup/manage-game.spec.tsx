@@ -40,6 +40,7 @@ describe("Add Game", () => {
 
     expect(successSpy).toHaveBeenCalled();
   });
+
   it("will show form errors", async () => {
     const messages = {
       name: "This field is required",
@@ -107,6 +108,7 @@ describe("Edit Game", () => {
 
     expect(successSpy).toHaveBeenCalled();
   });
+
   it("will show form errors", async () => {
     mockUseParams.mockReturnValue({ id });
 
