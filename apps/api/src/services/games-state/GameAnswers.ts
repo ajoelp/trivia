@@ -21,8 +21,12 @@ export class GameAnswers {
     this.answers.set(questionId, existing);
   }
 
+  answeredQuestionIds(): string[] {
+    return [...this.answers.entries()].map(([id]) => id);
+  }
+
   fromJson(questionAnswers: QuestionAnswers[]) {
-    this.answers = new Map(questionAnswers.map((q) => [q.questionId, q.answers]));
+    this.answers = new Map((questionAnswers ?? []).map((q) => [q.questionId, q.answers]));
   }
 
   toJson(): QuestionAnswers[] {

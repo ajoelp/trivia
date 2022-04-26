@@ -15,6 +15,14 @@
     "skipDefaultLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": ".",
+    "paths": {
+      "@src/*": [
+        "src/*"
+      ],
+      "@prisma-client": [
+        "prisma/index.ts"
+      ]
+    }
   },
   "include": ["src/**/*", "prisma-test-environment.ts"],
   "exclude": ["node_modules", "tmp"]

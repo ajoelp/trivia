@@ -23,6 +23,8 @@ export class GameEvents {
     this.clients.splice(currentIndex, 1);
   }
 
+  processAction(action: TriviaActions) {}
+
   broadcastMessage(action: TriviaActions) {
     this.clients.forEach((client) => {
       client.emit("message", action);

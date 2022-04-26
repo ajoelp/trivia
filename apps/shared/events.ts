@@ -9,7 +9,6 @@ export const START_EVALUATING = makeAction('start-evaluating')
 export const GRADE_QUESTION = makeAction('grade-question')
 export const SHOW_SCORES = makeAction('show-scores')
 
-
 export type StartGameAction = {
     type: typeof START_GAME,
 }

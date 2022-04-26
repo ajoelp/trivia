@@ -6,4 +6,8 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest/legacy",
   },
+  moduleNameMapper: {
+    "^@src/(.*)": "<rootDir>/src/$1",
+    "^@prisma-client": "<rootDir>/prisma/index.ts",
+  },
 };
