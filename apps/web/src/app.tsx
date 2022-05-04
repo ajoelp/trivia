@@ -5,22 +5,25 @@ import { AuthProvider } from "./providers/AuthProvider";
 import { ToastMessages } from "./services/toast";
 import { PortalProvider } from "./components/Portal";
 import { DialogManager } from "./dialogs/DialogManager";
+import { ThemeManager } from "./theme/ThemeManager";
 
 const client = new QueryClient();
 
 export default function App() {
   return (
-    <PortalProvider>
-      <QueryClientProvider client={client}>
-        <DialogManager>
-          <BrowserRouter>
-            <AuthProvider>
-              <Routes />
-              <ToastMessages />
-            </AuthProvider>
-          </BrowserRouter>
-        </DialogManager>
-      </QueryClientProvider>
-    </PortalProvider>
+    <ThemeManager>
+      <PortalProvider>
+        <QueryClientProvider client={client}>
+          <DialogManager>
+            <BrowserRouter>
+              <AuthProvider>
+                <Routes />
+                <ToastMessages />
+              </AuthProvider>
+            </BrowserRouter>
+          </DialogManager>
+        </QueryClientProvider>
+      </PortalProvider>
+    </ThemeManager>
   );
 }
