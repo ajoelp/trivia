@@ -8,6 +8,7 @@ export const ANSWER_QUESTION = makeAction('answer-question')
 export const START_EVALUATING = makeAction('start-evaluating')
 export const GRADE_QUESTION = makeAction('grade-question')
 export const SHOW_SCORES = makeAction('show-scores')
+export const FINAL_REPORT = makeAction('final-report')
 
 export type StartGameAction = {
     type: typeof START_GAME,
@@ -20,6 +21,7 @@ export type NextQuestionAction = {
 export type AnswerQuestionAction = {
     type: typeof ANSWER_QUESTION,
     payload: {
+        questionId: string,
         teamId: string,
         answer: string
     }
@@ -31,13 +33,17 @@ export type StartEvaluatingAction = {
 
 export type GradeQuestionAction = {
     type: typeof GRADE_QUESTION,
-    payload: { teamId: string, isCorrect: boolean },
+    payload: { teamId: string, questionId: string, isCorrect: boolean },
 }
 
 export type ShowScoresAction = {
     type: typeof SHOW_SCORES,
 }
 
-export type TriviaActions =  StartGameAction | NextQuestionAction | AnswerQuestionAction | StartEvaluatingAction | GradeQuestionAction | ShowScoresAction
+export type FinalReportAction = {
+    type: typeof FINAL_REPORT,
+}
+
+export type TriviaActions =  StartGameAction | NextQuestionAction | AnswerQuestionAction | StartEvaluatingAction | GradeQuestionAction | ShowScoresAction | FinalReportAction
 
 

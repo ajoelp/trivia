@@ -67,7 +67,7 @@ export class GameTeams {
   }
 
   fromJson(teams: Team[]) {
-    this.teams = new Map(teams ?? [].reduce((carry, team) => [...carry, [team.id, team]], []));
+    this.teams = new Map((teams ?? []).reduce((carry, team) => [...carry, [team.id, team]], []));
   }
 
   toArray(): Team[] {
