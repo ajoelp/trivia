@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only --clear --exit-child ./src/index.ts",
+    "start": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --clear --exit-child ./src/index.ts",
     "test": "jest",
     "lint": "eslint 'src/**/*.{js,ts,tsx,jsx}'",
     "db:populate": "ts-node --transpile-only src/scripts/populate-database.ts"
@@ -53,6 +53,7 @@
     "prettier": "^2.6.2",
     "prisma": "^3.12.0",
     "ts-jest": "^28.0.0-next.0",
-    "ts-node-dev": "^1.1.8"
+    "ts-node-dev": "^1.1.8",
+    "tsconfig-paths": "^4.0.0"
   }
 }

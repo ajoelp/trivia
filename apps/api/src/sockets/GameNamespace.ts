@@ -3,7 +3,6 @@ import { prisma } from "../../prisma";
 import { GameEvents } from "./GameEvents";
 
 type GameClients = Map<string, GameEvents>;
-
 export class GameNamespaceService {
   REGEX = /\/(.*)/;
   namespace: Namespace;
@@ -38,7 +37,20 @@ export class GameNamespaceService {
       this.games.set(code, new GameEvents(code));
     }
 
-    this.games.get(code).addClient(socket);
+    const events = this.games.get(code);
+
+    events.addClient(socket);
+
+    socket.emit("game-state", await events.getGameState());
+
+    socket.on("action", async (event: string) => {
+      try {
+        const eventData = JSON.parse(event);
+        await events.processAction(eventData);
+      } catch (e) {
+        socket.emit("client-error", e.message);
+      }
+    });
   }
 
   onDisconnect(socket: Socket): void {
@@ -59,12 +71,6 @@ export class GameNamespaceService {
 
   private static async hasExistingGame(code: string): Promise<boolean> {
     return Boolean(await prisma.game.findUnique({ where: { code } }));
-  }
-
-  private debugLog() {
-    const games = Object.entries(this.games).reduce((carry, [code, clients]) => {
-      return { ...carry, [code]: clients?.length ?? 0 };
-    }, {});
   }
 }
 
