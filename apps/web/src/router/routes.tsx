@@ -11,6 +11,7 @@ export enum RouteNames {
   ROOT = "root",
   ADD_GAME = "add-game",
   EDIT_GAME = "edit-game",
+  HOST = "host",
 }
 
 export const ROUTES: RouteInstance[] = [
@@ -76,6 +77,12 @@ export const ROUTES: RouteInstance[] = [
         path: ":code",
         name: RouteNames.GAME_CODE,
         component: lazy(() => import("../screens/game/Game")),
+        title: "Game",
+      },
+      {
+        path: ":code/host",
+        name: RouteNames.HOST,
+        component: lazy(() => import("../screens/game/HostView")),
         title: "Game",
       },
     ],

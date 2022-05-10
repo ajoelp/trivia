@@ -20,7 +20,7 @@ export function JoinTeam() {
     <Box width="100%" maxWidth="400px" mx="auto" display="flex" flexDirection="column" gap="4">
       <Heading>Join A Team</Heading>
       <Box display="flex" flexDirection="column" gap="2">
-        {gameState?.teams.map((team) => (
+        {gameState?.teams?.map((team) => (
           <Button
             variant="outline"
             colorScheme="white"

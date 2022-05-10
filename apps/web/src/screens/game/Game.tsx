@@ -3,7 +3,7 @@ import { useFetchQuestion } from "../../api/questions";
 import { useLocalStorage } from "usehooks-ts";
 import { Game as GameType, GameState, GameStates } from "@trivia/shared/types";
 import { JoinTeam } from "./JoinTeam";
-import { ComponentType, lazy, LazyExoticComponent, Suspense } from "react";
+import { ComponentType, lazy, LazyExoticComponent, Suspense, useMemo } from "react";
 import { GameStateProps } from "./game-states/shared";
 import { OwnerLogin } from "../../components/OwnerLogin";
 import { GameNav } from "../../components/GameNav";
@@ -11,14 +11,18 @@ import { GameProvider, useGameSocket } from "../../providers/GameProvider";
 
 const State: Partial<Record<GameStates, LazyExoticComponent<ComponentType<GameStateProps>>>> = {
   [GameStates.QUESTION_ASKED]: lazy(() => import("./game-states/QuestionAsked")),
+  [GameStates.PENDING]: lazy(() => import("./game-states/PendingState")),
 };
 
 function RenderGameState() {
   const { gameState, instance, game, question } = useGameSocket();
 
-  if (!gameState) return <p>Loading</p>;
+  const Component = useMemo(() => {
+    if (gameState?.state == null || !gameState) return State[GameStates.PENDING];
+    return State[gameState.state];
+  }, [gameState]);
 
-  const Component = State[gameState.state];
+  if (!gameState) return <p>Loading</p>;
 
   if (!Component) {
     return <p>Invalid state {gameState.state}</p>;
