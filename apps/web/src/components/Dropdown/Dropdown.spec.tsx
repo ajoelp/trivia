@@ -1,4 +1,4 @@
-import Dropdown, { DropdownOption } from "./Dropdown";
+import Index, { DropdownOption } from "./Dropdown";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 describe("Dropdown", () => {
@@ -11,7 +11,7 @@ describe("Dropdown", () => {
       label: "Test Option",
     };
 
-    render(<Dropdown options={[option]}>{test}</Dropdown>);
+    render(<Index options={[option]}>{test}</Index>);
 
     const trigger = await screen.findByText(test);
     fireEvent.click(trigger);
@@ -30,7 +30,7 @@ describe("Dropdown", () => {
       target: "_blank",
     };
 
-    render(<Dropdown options={[option]}>{test}</Dropdown>);
+    render(<Index options={[option]}>{test}</Index>);
 
     const trigger = await screen.findByText(test);
     fireEvent.click(trigger);

@@ -1,6 +1,8 @@
 import React, { ReactNode, useCallback } from "react";
 import { classNames } from "../services/utils";
 
+import { Table as ChakraTable, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from "@chakra-ui/react";
+
 type TableAccessor<DataType, ExtraProps> =
   | keyof DataType
   | ((data: DataType, index: number, extraProps?: ExtraProps) => ReactNode);
@@ -36,35 +38,34 @@ export function Table<DataType, ExtraProps>({
   );
 
   return (
-    <table className="w-full divide-y">
-      <thead className="bg-zinc-900">
-        <tr>
-          {columns.map((column, key) => (
-            <th
-              className={classNames("whitespace-nowrap px-4 py-3.5 text-left text-sm font-semibold", column.className)}
-              key={key}
-            >
-              {column.label}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody className="divide-y">
-        {data.length <= 0 && emptyPlaceholder && (
-          <tr>
-            <td colSpan={columns.length}>{emptyPlaceholder}</td>
-          </tr>
-        )}
-        {data.map((item, index) => (
-          <tr key={index}>
+    <TableContainer>
+      <ChakraTable variant="simple">
+        <Thead>
+          <Tr>
             {columns.map((column, key) => (
-              <td className={classNames("whitespace-nowrap px-4 py-2 text-sm", column.className)} key={key}>
-                {processColumn(column.accessor, item, index)}
-              </td>
+              <Th className={column.className} key={key}>
+                {column.label}
+              </Th>
             ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {data.length <= 0 && emptyPlaceholder && (
+            <Tr>
+              <Td colSpan={columns.length}>{emptyPlaceholder}</Td>
+            </Tr>
+          )}
+          {data.map((item, index) => (
+            <Tr key={index}>
+              {columns.map((column, key) => (
+                <Td className={column.className} key={key}>
+                  {processColumn(column.accessor, item, index)}
+                </Td>
+              ))}
+            </Tr>
+          ))}
+        </Tbody>
+      </ChakraTable>
+    </TableContainer>
   );
 }

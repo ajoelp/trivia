@@ -1,30 +1,39 @@
-import { FormControl, FormControlProps } from "./FormControl";
-import { Control, FieldValues, useController, Path, FieldPath } from "react-hook-form";
+import { Control, FieldPath, FieldValues, Path, useController } from "react-hook-form";
 import { FieldPathValue, UnpackNestedValue } from "react-hook-form/dist/types";
-import { Select } from "@chakra-ui/react";
+import { FormControl, FormControlProps } from "./FormControl";
+import styled from "styled-components";
 
-type InputProps = JSX.IntrinsicElements["select"];
+const Input = styled.input`
+  font-size: var(--chakra-fontSizes-5xl);
+  background-color: transparent;
+  border-bottom: 3px solid white;
+  line-height: 4rem;
+  width: 100%;
+`;
 
-type SelectInputProps<
+type InputProps = JSX.IntrinsicElements["input"];
+
+type TextInputProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
   label: string;
   name: Path<TFieldValues>;
+  type?: InputProps["type"];
   control: Control<TFieldValues>;
   defaultValue: UnpackNestedValue<FieldPathValue<TFieldValues, TName>>;
   className?: string;
-  children: InputProps["children"];
 } & Omit<FormControlProps, "children" | "error">;
 
-export default function SelectInput<TFieldValues extends FieldValues = FieldValues>({
+export function BigInput<TFieldValues extends FieldValues = FieldValues>({
   label,
   name,
+  type = "text",
   control,
   defaultValue,
   className,
   ...rest
-}: SelectInputProps<TFieldValues>) {
+}: TextInputProps<TFieldValues>) {
   const {
     field: { onChange, value },
     formState: { errors },
@@ -36,7 +45,7 @@ export default function SelectInput<TFieldValues extends FieldValues = FieldValu
 
   return (
     <FormControl error={errors?.[name]?.message} className={className} label={label} name={name}>
-      <Select {...{ name, onChange, value, id: name, ...rest }} />
+      <Input {...{ name, type, onChange, value, id: name, ...rest }} />
     </FormControl>
   );
 }

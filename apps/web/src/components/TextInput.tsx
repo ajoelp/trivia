@@ -2,6 +2,7 @@ import { FormControl, FormControlProps } from "./FormControl";
 import { Control, FieldValues, useController, Path, FieldPath } from "react-hook-form";
 import { FieldPathValue, UnpackNestedValue } from "react-hook-form/dist/types";
 import { classNames } from "../services/utils";
+import { Input } from "@chakra-ui/react";
 
 type InputProps = JSX.IntrinsicElements["input"];
 
@@ -37,10 +38,7 @@ export default function TextInput<TFieldValues extends FieldValues = FieldValues
 
   return (
     <FormControl error={errors?.[name]?.message} className={className} label={label} name={name}>
-      <input
-        className={classNames("bg-zinc-900 h-10 rounded border-zinc-800")}
-        {...{ name, type, onChange, value, id: name, ...rest }}
-      />
+      <Input {...{ name, type, onChange, value, id: name, ...rest }} />
     </FormControl>
   );
 }

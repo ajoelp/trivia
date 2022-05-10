@@ -7,6 +7,8 @@ import {
   SHOW_SCORES,
   START_EVALUATING,
   START_GAME,
+  CREATE_TEAM,
+  REMOVE_TEAM,
   TriviaActions,
 } from "@trivia/shared/events";
 import { BaseAction } from "@src/services/games-state/actions/BaseAction";
@@ -19,10 +21,12 @@ import { StartEvaluating } from "@src/services/games-state/actions/StartEvaluati
 import { StartGame } from "@src/services/games-state/actions/StartGame";
 import { GameState } from "@trivia/shared/types";
 import { prisma } from "@prisma-client";
+import { CreateTeam } from "@src/services/games-state/actions/CreateTeam";
+import { RemoveTeam } from "@src/services/games-state/actions/RemoveTeam";
 
-type ActionContructor = new (code: string) => BaseAction;
+type ActionConstructor = new (code: string) => BaseAction;
 
-const ActionMap: Record<TriviaActions["type"], ActionContructor> = {
+const ActionMap: Record<TriviaActions["type"], ActionConstructor> = {
   [START_GAME]: StartGame,
   [NEXT_QUESTION]: NextQuestion,
   [ANSWER_QUESTION]: AnswerQuestion,
@@ -30,6 +34,8 @@ const ActionMap: Record<TriviaActions["type"], ActionContructor> = {
   [GRADE_QUESTION]: GradeQuestion,
   [SHOW_SCORES]: ShowScores,
   [FINAL_REPORT]: FinalReport,
+  [CREATE_TEAM]: CreateTeam,
+  [REMOVE_TEAM]: RemoveTeam,
 };
 
 export class GameEvents {

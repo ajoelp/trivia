@@ -9,6 +9,8 @@ export const START_EVALUATING = makeAction('start-evaluating')
 export const GRADE_QUESTION = makeAction('grade-question')
 export const SHOW_SCORES = makeAction('show-scores')
 export const FINAL_REPORT = makeAction('final-report')
+export const CREATE_TEAM = makeAction('create-team')
+export const REMOVE_TEAM = makeAction('remove-team')
 
 export type StartGameAction = {
     type: typeof START_GAME,
@@ -44,6 +46,16 @@ export type FinalReportAction = {
     type: typeof FINAL_REPORT,
 }
 
-export type TriviaActions =  StartGameAction | NextQuestionAction | AnswerQuestionAction | StartEvaluatingAction | GradeQuestionAction | ShowScoresAction | FinalReportAction
+export type CreateTeamAction = {
+    type: typeof CREATE_TEAM,
+    payload: { name: string }
+}
+
+export type RemoveTeamAction = {
+    type: typeof REMOVE_TEAM,
+    payload: { id: string }
+}
+
+export type TriviaActions =  StartGameAction | NextQuestionAction | AnswerQuestionAction | StartEvaluatingAction | GradeQuestionAction | ShowScoresAction | FinalReportAction | CreateTeamAction | RemoveTeamAction
 
 

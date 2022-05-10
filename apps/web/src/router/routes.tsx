@@ -4,6 +4,7 @@ import { lazy } from "react";
 export enum RouteNames {
   WATCH = "watch",
   GAME = "game",
+  GAME_CODE = "game-code",
   DASHBOARD = "dashboard",
   LOGIN = "login",
   NOT_FOUND = "not-found",
@@ -69,6 +70,12 @@ export const ROUTES: RouteInstance[] = [
         path: "",
         name: RouteNames.GAME,
         component: lazy(() => import("../screens/game/Landing")),
+        title: "Game",
+      },
+      {
+        path: ":code",
+        name: RouteNames.GAME_CODE,
+        component: lazy(() => import("../screens/game/Game")),
         title: "Game",
       },
     ],

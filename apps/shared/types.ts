@@ -11,6 +11,7 @@ export interface Game {
     state: Record<string, any>;
     createdAt: string;
     authorId: string;
+    isOwner?: boolean
 }
 
 export enum Difficulty {

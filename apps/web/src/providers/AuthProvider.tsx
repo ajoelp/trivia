@@ -27,7 +27,6 @@ export function AuthProvider({ children, fetchOnMount = true, user: baseUser }: 
   };
 
   const logout = async () => {
-    console.log("this was clicked");
     await Cookies.remove("AUTH_TOKEN");
     await remove();
     navigate(routePath(RouteNames.ROOT));

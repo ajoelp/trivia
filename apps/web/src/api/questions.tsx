@@ -10,11 +10,15 @@ export function useQuestions(gameId: string) {
 }
 
 type OnSuccess = (question: Question) => void;
-export function useFetchQuestion(gameId: string, questionId?: string, onSuccess?: OnSuccess) {
-  return useQuery(["question", { gameId, questionId }], () => Services.questions.fetch(gameId, questionId as string), {
-    enabled: questionId != null,
-    onSuccess,
-  });
+export function useFetchQuestion(gameId?: string, questionId?: string, onSuccess?: OnSuccess) {
+  return useQuery(
+    ["question", { gameId, questionId }],
+    () => Services.questions.fetch(gameId as string, questionId as string),
+    {
+      enabled: questionId != null && gameId != null,
+      onSuccess,
+    },
+  );
 }
 
 export function useModifyQuestion(gameId: string, questionId?: string) {

@@ -1,17 +1,22 @@
-import { ClipboardCopyIcon } from "@heroicons/react/solid";
-import { Tooltip } from "./Tooltip";
-
+import { Button, Tooltip, useClipboard } from "@chakra-ui/react";
+import { CopyIcon } from "@chakra-ui/icons";
 interface CopyToClipboardProps {
   value: string;
+  label?: string;
 }
 
-export function CopyToClipboard({ value }: CopyToClipboardProps) {
+export function CopyToClipboard({ value, label }: CopyToClipboardProps) {
+  const { hasCopied, onCopy } = useClipboard(value);
+
+  if (!label) {
+    label = value;
+  }
+
   return (
-    <Tooltip value="Copy to clipboard">
-      <button className="inline-flex gap-1 items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-zinc-200 hover:bg-zinc-300 text-zinc-800">
-        {value}
-        <ClipboardCopyIcon className="w-3 h-" />
-      </button>
+    <Tooltip label="Copy to clipboard">
+      <Button size="xs" leftIcon={<CopyIcon />} onClick={onCopy}>
+        {hasCopied ? "Copied" : label}
+      </Button>
     </Tooltip>
   );
 }

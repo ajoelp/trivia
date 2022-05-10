@@ -13,7 +13,14 @@ import { QuestionsRouter } from "./questions/QuestionsRouter";
 const app = express();
 const httpServer = createServer(app);
 
-const io = new Server(httpServer, {});
+const io = new Server(httpServer, {
+  cors: {
+    origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Authorization"],
+    credentials: true,
+  },
+});
 
 app.use(cors());
 app.use(express.json());

@@ -21,8 +21,8 @@ interface ThemeArgs {
   theme: TriviaTheme;
 }
 
-export function getColor(color: keyof TriviaTheme["colors"]) {
-  return ({ theme }: ThemeArgs) => theme.colors[color];
+export function getColor(color: Join<PathsToStringProps<TriviaTheme["colors"]>, ".">) {
+  return ({ theme }: ThemeArgs) => get(theme.colors, color);
 }
 
 export function getSizing(size: Join<PathsToStringProps<TriviaTheme["sizing"]>, ".">) {

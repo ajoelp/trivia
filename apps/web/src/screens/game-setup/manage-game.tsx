@@ -2,7 +2,6 @@ import { Game } from "@trivia/shared/types";
 import { useForm } from "react-hook-form";
 import TextInput from "../../components/TextInput";
 import Toggle from "../../components/Toggle";
-import { Button } from "../../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { routePath } from "../../router/router";
 import { RouteNames } from "../../router/routes";
@@ -10,6 +9,15 @@ import { useCreateGame, useGame, useUpdateGame } from "../../api/games";
 import { CopyToClipboard } from "../../components/CopyToClipboard";
 import { useMemo } from "react";
 import { QuestionsList } from "../../components/QuestionsList";
+import { Box, Button, Heading } from "@chakra-ui/react";
+import styled from "styled-components";
+import { getSizing } from "../../theme/helpers";
+
+const FormWrapper = styled.form`
+  display: flex;
+  gap: ${getSizing("spacing.4")};
+  flex-direction: column;
+`;
 
 export default function ManageGame() {
   const { handleSubmit, control, setError, reset } = useForm<Partial<Game>>();
@@ -48,8 +56,8 @@ export default function ManageGame() {
   return (
     <div className="flex h-full">
       <div className="p-4 border-r border-gray-500 h-full min-w-[350px]">
-        <p className="text-2xl font-bold mb-4">Game Settings</p>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <Heading>Game Settings</Heading>
+        <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <TextInput
             className="flex-1"
             control={control}
@@ -58,7 +66,7 @@ export default function ManageGame() {
             data-testid="name-input"
             defaultValue=""
           />
-          <div className="flex gap-4">
+          <Box display="flex" gap="4">
             {game?.code && <CopyToClipboard value={game.code} />}
             <Toggle
               label="Active"
@@ -68,13 +76,13 @@ export default function ManageGame() {
               data-testid="active-input"
               defaultValue={false}
             />
-          </div>
-          <Button type="submit" data-testid="submit-button" loading={createGameMutation.isLoading}>
+          </Box>
+          <Button type="submit" data-testid="submit-button" isLoading={createGameMutation.isLoading}>
             Save
           </Button>
-        </form>
+        </FormWrapper>
       </div>
-      <div className="flex flex-col flex-1">{game?.id && <QuestionsList gameId={game.id} />}</div>
+      <Box mt="4">{game?.id && <QuestionsList gameId={game.id} />}</Box>
     </div>
   );
 }

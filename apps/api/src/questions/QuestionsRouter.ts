@@ -31,5 +31,5 @@ QuestionsRouter.patch("/games/:gameId/questions/:id", [
   update,
 ]);
 
-QuestionsRouter.get("/games/:gameId/questions/:id", [AuthMiddleware, UserHasAccessToGame("gameId"), fetch]);
+QuestionsRouter.get("/games/:gameId/questions/:id", [fetch]);
 QuestionsRouter.delete("/games/:gameId/questions/:id", [AuthMiddleware, UserHasAccessToGame("gameId"), destroy]);
