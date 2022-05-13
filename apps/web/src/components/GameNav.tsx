@@ -1,26 +1,21 @@
-import styled from "styled-components";
-import { getSizing } from "../theme/helpers";
 import { useMemo } from "react";
 import Dropdown, { DropdownOption } from "./Dropdown";
-import { SettingsIcon } from "@chakra-ui/icons";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../providers/AuthProvider";
 import { routePath } from "../router/router";
 import { RouteNames } from "../router/routes";
-import { useLocalStorage } from "usehooks-ts";
-
-const Wrapper = styled.div`
-  width: 100vw;
-  padding: ${getSizing("spacing.4")};
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`;
+import { CogIcon } from "@heroicons/react/solid";
+import { useGameSocket } from "../providers/GameProvider";
+import { useTeamId } from "../services/useTeamId";
+import { Link } from "./Button";
 
 export function GameNav() {
+  const { game } = useGameSocket();
   const location = useLocation();
   const { user, logout } = useAuth();
-  const [teamId, setTeamId] = useLocalStorage("teamId", null);
+  console.log(game?.code ?? "no game");
+
+  const { teamId, setTeamId } = useTeamId();
 
   const dropdownOptions = useMemo<DropdownOption[]>(() => {
     return [
@@ -32,13 +27,18 @@ export function GameNav() {
       user && { type: "button", label: "Logout", onClick: logout },
       teamId && { type: "button", label: "Switch Team", onClick: () => setTeamId(null) },
     ].filter(Boolean) as DropdownOption[];
-  }, [location.pathname, logout, user]);
+  }, [location.pathname, logout, setTeamId, teamId, user]);
 
   return (
-    <Wrapper>
+    <div className="w-screen p-4 flex items-center justify-end">
+      {game?.isOwner && (
+        <Link href={routePath(RouteNames.HOST, { code: game.code })} variant="secondary" size="md">
+          Host Mode
+        </Link>
+      )}
       <Dropdown options={dropdownOptions}>
-        <SettingsIcon />
+        <CogIcon className="w-5 h-5" />
       </Dropdown>
-    </Wrapper>
+    </div>
   );
 }

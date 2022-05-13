@@ -9,15 +9,7 @@ import { useCreateGame, useGame, useUpdateGame } from "../../api/games";
 import { CopyToClipboard } from "../../components/CopyToClipboard";
 import { useMemo } from "react";
 import { QuestionsList } from "../../components/QuestionsList";
-import { Box, Button, Heading } from "@chakra-ui/react";
-import styled from "styled-components";
-import { getSizing } from "../../theme/helpers";
-
-const FormWrapper = styled.form`
-  display: flex;
-  gap: ${getSizing("spacing.4")};
-  flex-direction: column;
-`;
+import { Button } from "../../components/Button";
 
 export default function ManageGame() {
   const { handleSubmit, control, setError, reset } = useForm<Partial<Game>>();
@@ -56,8 +48,8 @@ export default function ManageGame() {
   return (
     <div className="flex h-full">
       <div className="p-4 border-r border-gray-500 h-full min-w-[350px]">
-        <Heading>Game Settings</Heading>
-        <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+        <h1 className="text-xl font-extrabold">Game Settings</h1>
+        <form className="flex gap-4 flex-col" onSubmit={handleSubmit(onSubmit)}>
           <TextInput
             className="flex-1"
             control={control}
@@ -66,7 +58,7 @@ export default function ManageGame() {
             data-testid="name-input"
             defaultValue=""
           />
-          <Box display="flex" gap="4">
+          <div className="flex gap-4">
             {game?.code && <CopyToClipboard value={game.code} />}
             <Toggle
               label="Active"
@@ -76,13 +68,13 @@ export default function ManageGame() {
               data-testid="active-input"
               defaultValue={false}
             />
-          </Box>
-          <Button type="submit" data-testid="submit-button" isLoading={createGameMutation.isLoading}>
+          </div>
+          <Button type="submit" data-testid="submit-button" loading={createGameMutation.isLoading}>
             Save
           </Button>
-        </FormWrapper>
+        </form>
       </div>
-      <Box mt="4">{game?.id && <QuestionsList gameId={game.id} />}</Box>
+      <div className="mt-4">{game?.id && <QuestionsList gameId={game.id} />}</div>
     </div>
   );
 }

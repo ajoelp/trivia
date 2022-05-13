@@ -2,8 +2,9 @@ import { Game, GameState, Question } from "@trivia/shared/types";
 import { createContext, ReactNode, useContext, useMemo, useState } from "react";
 import { Socket } from "socket.io-client";
 import { GameSocket } from "../services/GameSocket";
-import { useToast } from "@chakra-ui/react";
 import { useFetchQuestion } from "../api/questions";
+import { useQuery } from "../services/useQuery";
+import { toast } from "../services/toast";
 
 interface GameContextState {
   socket?: Socket;
@@ -20,10 +21,10 @@ interface GameProviderProps {
   code: string;
 }
 export function GameProvider({ children, code }: GameProviderProps) {
-  const toast = useToast();
   const [socket, setSocket] = useState<Socket>();
   const [game, setGame] = useState<Game>();
   const [gameState, setGameState] = useState<GameState>();
+  const query = useQuery();
 
   const { data: question } = useFetchQuestion(game?.id, gameState?.currentQuestionId);
 
@@ -33,19 +34,18 @@ export function GameProvider({ children, code }: GameProviderProps) {
       .listenGameState(setGameState)
       .listenGame(setGame)
       .listenClientError((error) => {
-        toast({
-          title: "Error",
-          description: error,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
+        toast.error(error);
       });
-  }, [code, toast]);
+  }, [code]);
 
   const value = { instance, socket, gameState, game, question };
 
-  return <context.Provider value={value}>{children}</context.Provider>;
+  return (
+    <context.Provider value={value}>
+      {children}
+      {query.get("debug") && <pre>{JSON.stringify(gameState, null, 2)}</pre>}
+    </context.Provider>
+  );
 }
 
 export function useGameSocket() {

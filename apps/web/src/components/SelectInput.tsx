@@ -1,7 +1,7 @@
 import { FormControl, FormControlProps } from "./FormControl";
 import { Control, FieldValues, useController, Path, FieldPath } from "react-hook-form";
 import { FieldPathValue, UnpackNestedValue } from "react-hook-form/dist/types";
-import { Select } from "@chakra-ui/react";
+import { classNames } from "../services/utils";
 
 type InputProps = JSX.IntrinsicElements["select"];
 
@@ -36,7 +36,12 @@ export default function SelectInput<TFieldValues extends FieldValues = FieldValu
 
   return (
     <FormControl error={errors?.[name]?.message} className={className} label={label} name={name}>
-      <Select {...{ name, onChange, value, id: name, ...rest }} />
+      <select
+        className={classNames(
+          "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-secondary-500 focus:border-secondary-500 sm:text-sm rounded-md",
+        )}
+        {...{ name, onChange, value, id: name, ...rest }}
+      />
     </FormControl>
   );
 }

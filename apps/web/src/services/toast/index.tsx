@@ -55,11 +55,11 @@ export function Toast({ toast }: ToastProps) {
         initial={{ opacity: 0, y: 50, scale: 0.3 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.5 }}
-        className={classNames(Colors.background, "p-2 rounded-lg flex gap-2 bg-zinc-900 items-center min-h-[60px]")}
+        className={classNames(Colors.background, "p-2 rounded-lg flex gap-2 bg-white items-center min-h-[60px]")}
       >
         {Colors.icon}
         <div>{toast.message}</div>
-        <div className="ml-auto h-full rounded hover:bg-zinc-800">
+        <div className="ml-auto h-full rounded hover:bg-zinc-100">
           <button
             className="p-2 flex items-center justify-center"
             onClick={(e) => {
@@ -67,7 +67,7 @@ export function Toast({ toast }: ToastProps) {
               toast.remove();
             }}
           >
-            <XIcon className={classNames("text-white w-4 h-4")} />
+            <XIcon className={classNames("text-zinc-900 w-4 h-4")} />
           </button>
         </div>
       </motion.div>

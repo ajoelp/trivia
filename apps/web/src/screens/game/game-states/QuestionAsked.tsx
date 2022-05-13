@@ -1,9 +1,9 @@
 import { GameStateProps } from "./shared";
-import { Box, Button, Heading } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useCallback, useMemo } from "react";
 import { BigInput } from "../../../components/BigInput";
-import { useLocalStorage } from "usehooks-ts";
+import { useTeamId } from "../../../services/useTeamId";
+import { Button } from "../../../components/Button";
 
 interface QuestionAskedForm {
   answer: string;
@@ -11,13 +11,13 @@ interface QuestionAskedForm {
 
 export default function QuestionAsked({ question, game, instance, gameState }: GameStateProps) {
   const { control, handleSubmit } = useForm<QuestionAskedForm>();
-  const [teamId] = useLocalStorage<string>("teamId", "");
+  const { teamId } = useTeamId();
 
   const currentQuestionAnswers = useMemo(
     () =>
       gameState.answers.find((answer) => {
         return answer.questionId === question?.id;
-      })?.answers?.[teamId],
+      })?.answers?.[teamId as string],
     [gameState.answers, question?.id, teamId],
   );
 
@@ -34,19 +34,19 @@ export default function QuestionAsked({ question, game, instance, gameState }: G
   );
 
   return (
-    <Box>
-      <Heading>{question?.value}</Heading>
-      <Box mt="8" as="form" onSubmit={handleSubmit(onSubmit)}>
+    <div className="w-full max-w-lg mx-auto my-auto">
+      <h1 className="text-2xl font-extrabold">{question?.value}</h1>
+      <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
         <BigInput
           label="Your Answer"
           name="answer"
           control={control}
           defaultValue={currentQuestionAnswers?.answer ?? ""}
         />
-        <Button type="submit" size="lg" mt="2" colorScheme="secondary" width="100%">
+        <Button type="submit" variant="big-ol-button" className="mt-8 w-full">
           Submit
         </Button>
-      </Box>
-    </Box>
+      </form>
+    </div>
   );
 }

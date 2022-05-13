@@ -1,31 +1,35 @@
-import { GameSocket } from "../../services/GameSocket";
-import { useLocalStorage } from "usehooks-ts";
-import { useCallback, useState } from "react";
-import { Box, Button, Heading, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
-import { GameState } from "@trivia/shared/types";
+import { useCallback } from "react";
 import { useGameSocket } from "../../providers/GameProvider";
+import { useTeamId } from "../../services/useTeamId";
+import { Button } from "../../components/Button";
+import { useForm } from "react-hook-form";
+import TextInput from "../../components/TextInput";
+
+interface FormState {
+  name: string;
+}
 
 export function JoinTeam() {
   const { gameState, instance } = useGameSocket();
-  const [teamId, setTeamId] = useLocalStorage<string | null>("teamId", null);
-  const [teamName, setTeamName] = useState("");
+  const { setTeamId } = useTeamId();
+  const { control, reset, handleSubmit } = useForm<FormState>();
 
-  const handleClick = useCallback(() => {
-    if (teamName.length <= 0) return;
-    instance.createTeam({ name: teamName });
-    setTeamName("");
-  }, [instance, teamName]);
+  const handleClick = useCallback(
+    ({ name }: FormState) => {
+      if (name.length <= 0) return;
+      instance.createTeam({ name: name });
+      reset();
+    },
+    [instance, reset],
+  );
 
   return (
-    <Box width="100%" maxWidth="400px" mx="auto" display="flex" flexDirection="column" gap="4">
-      <Heading>Join A Team</Heading>
-      <Box display="flex" flexDirection="column" gap="2">
+    <div className="w-full max-w-[400px] mx-auto flex flex-col gap-4 my-auto">
+      <h1 className="text-2xl font-extrabold">Join A Team</h1>
+      <div className="flex flex-col gap-2">
         {gameState?.teams?.map((team) => (
           <Button
-            variant="outline"
-            colorScheme="white"
-            size="lg"
-            width="100%"
+            variant="big-ol-button"
             key={team.id}
             onClick={() => {
               setTeamId(team.id);
@@ -34,21 +38,10 @@ export function JoinTeam() {
             {team.name}
           </Button>
         ))}
-      </Box>
-      <InputGroup size="md" color="black">
-        <Input
-          backgroundColor="white"
-          pr="4.5rem"
-          placeholder="Create A Team"
-          value={teamName}
-          onChange={(e) => setTeamName(e.target.value)}
-        />
-        <InputRightElement width="4.5rem">
-          <Button h="1.75rem" size="sm" onClick={handleClick} colorScheme="secondary">
-            Create
-          </Button>
-        </InputRightElement>
-      </InputGroup>
-    </Box>
+      </div>
+      <form onSubmit={handleSubmit(handleClick)}>
+        <TextInput control={control} label="New Team Name" name="name" defaultValue="" />
+      </form>
+    </div>
   );
 }

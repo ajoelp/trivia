@@ -6,7 +6,7 @@ import TextInput from "../components/TextInput";
 import { useFetchQuestion, useModifyQuestion, useQuestions } from "../api/questions";
 import { BaseDialog } from "./BaseDialog";
 import SelectInput from "../components/SelectInput";
-import { Box, Button, Heading } from "@chakra-ui/react";
+import { Button } from "../components/Button";
 
 export interface ModifyQuestionDialogProps extends DialogProps {
   gameId: string;
@@ -36,8 +36,8 @@ export default function ModifyQuestionDialog({ gameId, questionId, closeDialog, 
 
   return (
     <BaseDialog closeDialog={closeDialog} active={active}>
-      <Heading mb="4">{prefix} Question</Heading>
-      <Box as="form" display="flex" flexDirection="column" gap="4" mb="4" onSubmit={handleSubmit(submit)}>
+      <h1 className="mb-4 text-2xl font-bold">{prefix} Question</h1>
+      <form className="flex flex-col gap-4 mb-4" onSubmit={handleSubmit(submit)}>
         <TextInput label="Question" name="value" control={control} defaultValue={""} />
         <TextInput label="Answer" name="answer" control={control} defaultValue={""} />
         <SelectInput label="Difficulty" name="difficulty" control={control} defaultValue={Difficulty.EASY}>
@@ -48,7 +48,7 @@ export default function ModifyQuestionDialog({ gameId, questionId, closeDialog, 
           ))}
         </SelectInput>
         <Button type="submit">Save</Button>
-      </Box>
+      </form>
     </BaseDialog>
   );
 }

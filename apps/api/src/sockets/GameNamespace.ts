@@ -48,6 +48,12 @@ export class GameNamespaceService {
       return;
     }
 
+    if (!existingGame.active) {
+      socket.emit("client-error", "Game does not exist or has not been started.");
+      socket.disconnect();
+      return;
+    }
+
     if (!this.games.has(code)) {
       this.games.set(code, new GameEvents(code));
     }

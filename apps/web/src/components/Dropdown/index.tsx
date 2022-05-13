@@ -1,6 +1,7 @@
-import { ReactNode, useMemo } from "react";
-import { Menu, MenuButton, MenuList, MenuItem, MenuDivider, Button } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { Fragment, ReactNode, useMemo } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/solid";
+import { classNames } from "../../services/utils";
 
 type LinkProps = JSX.IntrinsicElements["a"];
 
@@ -16,33 +17,59 @@ interface DropdownProps {
 }
 
 export default function Dropdown({ children, options }: DropdownProps) {
+  const buttonClasses = (active: boolean) =>
+    classNames(active && "bg-zinc-700", "block px-4 py-2 text-sm w-full text-left text-white");
+
   const menuOptions = useMemo(() => {
     return options.map((option, index) => {
       if (option.type === "button") {
         return (
-          <MenuItem key={index} onClick={option.onClick}>
-            {option.label}
-          </MenuItem>
+          <Menu.Item key={index}>
+            {({ active }) => (
+              <button onClick={option.onClick} className={buttonClasses(active)}>
+                {option.label}
+              </button>
+            )}
+          </Menu.Item>
         );
       }
       if (option.type === "link") {
         return (
-          <MenuItem key={index} as="a" href={option.href} target={option.target}>
-            {option.label}
-          </MenuItem>
+          <Menu.Item key={index}>
+            {({ active }) => (
+              <a href={option.href} target={option.target} className={buttonClasses(active)}>
+                {option.label}
+              </a>
+            )}
+          </Menu.Item>
         );
       }
-      return <MenuDivider key={index} />;
+      return <div key={index} />;
     });
   }, [options]);
 
   return (
-    <Menu>
-      <MenuButton as={Button} rightIcon={<ChevronDownIcon />} variant="ghost">
-        {children}
-      </MenuButton>
+    <Menu as="div" className="relative inline-block text-left">
+      <div>
+        <Menu.Button className="inline-flex justify-center items-center w-full rounded-md px-4 py-2 text-sm font-medium text-white hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-100 focus:ring-indigo-500">
+          {children}
+          <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+        </Menu.Button>
+      </div>
 
-      <MenuList color="black">{menuOptions}</MenuList>
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+      >
+        <Menu.Items className="origin-top-right absolute border border-zinc-600 right-0 mt-2 w-56 rounded-md bg-zinc-800 shadow-xl ring-black ring-opacity-5 focus:outline-none">
+          <div className="py-1">{menuOptions}</div>
+        </Menu.Items>
+      </Transition>
     </Menu>
   );
 }

@@ -1,13 +1,11 @@
 import { useParams } from "react-router-dom";
-import { useFetchQuestion } from "../../api/questions";
-import { useLocalStorage } from "usehooks-ts";
-import { Game as GameType, GameState, GameStates } from "@trivia/shared/types";
+import { Game as GameType, GameStates } from "@trivia/shared/types";
 import { JoinTeam } from "./JoinTeam";
 import { ComponentType, lazy, LazyExoticComponent, Suspense, useMemo } from "react";
 import { GameStateProps } from "./game-states/shared";
-import { OwnerLogin } from "../../components/OwnerLogin";
 import { GameNav } from "../../components/GameNav";
 import { GameProvider, useGameSocket } from "../../providers/GameProvider";
+import { useTeamId } from "../../services/useTeamId";
 
 const State: Partial<Record<GameStates, LazyExoticComponent<ComponentType<GameStateProps>>>> = {
   [GameStates.QUESTION_ASKED]: lazy(() => import("./game-states/QuestionAsked")),
@@ -38,7 +36,9 @@ function RenderGameState() {
 export default function Game() {
   const { code } = useParams();
 
-  const [teamId] = useLocalStorage("teamId", null);
+  const { teamId } = useTeamId();
+
+  console.log(teamId);
 
   return (
     <GameProvider code={code as string}>

@@ -1,15 +1,6 @@
 import { Control, FieldPath, FieldValues, Path, useController } from "react-hook-form";
 import { FieldPathValue, UnpackNestedValue } from "react-hook-form/dist/types";
 import { FormControl, FormControlProps } from "./FormControl";
-import styled from "styled-components";
-
-const Input = styled.input`
-  font-size: var(--chakra-fontSizes-5xl);
-  background-color: transparent;
-  border-bottom: 3px solid white;
-  line-height: 4rem;
-  width: 100%;
-`;
 
 type InputProps = JSX.IntrinsicElements["input"];
 
@@ -45,7 +36,10 @@ export function BigInput<TFieldValues extends FieldValues = FieldValues>({
 
   return (
     <FormControl error={errors?.[name]?.message} className={className} label={label} name={name}>
-      <Input {...{ name, type, onChange, value, id: name, ...rest }} />
+      <input
+        className="bg-transparent border-b-[4px] border-b-white leading-[3] text-4xl font-bold"
+        {...{ name, type, onChange, value, id: name, ...rest }}
+      />
     </FormControl>
   );
 }
